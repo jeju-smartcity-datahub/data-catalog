@@ -1,0 +1,6 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icn_card_check">
+<path d="M0 7C0 3.13401 3.13401 0 7 0H29C32.866 0 36 3.13401 36 7V29C36 32.866 32.866 36 29 36H7C3.13401 36 0 32.866 0 29V7Z" fill="#FFF3E6"/>
+<path id="Vector" d="M18 13.8333V18.8333M18 21.3333V21.4167M25.5 18C25.5 22.1421 22.1421 25.5 18 25.5C13.8579 25.5 10.5 22.1421 10.5 18C10.5 13.8579 13.8579 10.5 18 10.5C22.1421 10.5 25.5 13.8579 25.5 18Z" stroke="#FF8502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</svg>

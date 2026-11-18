@@ -1,0 +1,62 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:6d385e61-8387-4aa5-8a0e-6b61f79d0071",
+  "version": 2,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "name": "D.CATALOG font assets",
+      "version": "20261118",
+      "bom-ref": "datacatalog-font-assets",
+      "supplier": {
+        "name": "디토닉"
+      }
+    },
+    "timestamp": "2026-11-18T12:52:32Z"
+  },
+  "components": [
+    {
+      "type": "file",
+      "name": "PretendardVariable.woff2",
+      "version": "1.309",
+      "bom-ref": "urn:sha256:9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "id": "OFL-1.1"
+          }
+        }
+      ],
+      "copyright": "Copyright (c) 2021, Kil Hyung-jin, with Reserved Font Name Pretendard.",
+      "properties": [
+        {
+          "name": "datacatalog:included-path",
+          "value": "web/public/fonts/PretendardVariable.woff2"
+        },
+        {
+          "name": "datacatalog:included-path",
+          "value": "admin/public/fonts/PretendardVariable.woff2"
+        },
+        {
+          "name": "datacatalog:font-name-table-version",
+          "value": "Version 1.309;Glyphs 3.2 (3225)"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "datacatalog-font-assets",
+      "dependsOn": [
+        "urn:sha256:9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+      ]
+    }
+  ]
+}

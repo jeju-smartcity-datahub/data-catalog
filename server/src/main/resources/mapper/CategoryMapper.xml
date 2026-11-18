@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Classification">
+  <sql id="columns">c.id::text,c.up_id::text AS parent_id,c.cd AS code,c.nm AS name,c.expln AS description,c.actvtn_yn AS active,c.sort_seq AS ordinal,c.lck_ver_no AS lock_version,
+    ((SELECT count(*) FROM catalog.dataset_revision r JOIN catalog.dataset d ON d.id=r.dtset_id
+       JOIN identity.organization owner ON owner.id=d.psn_inst_id WHERE (r.main_clsf_id=c.id
+         OR EXISTS(SELECT 1 FROM catalog.revision_topic rt WHERE rt.rvsn_id=r.id AND rt.tpc_id=c.id))
+       <if test="!platform">AND owner.stts_cd='ACTIVE'
+         <choose><when test="organizations.size() > 0">AND d.psn_inst_id IN
+           <foreach collection="organizations" item="organization" open="(" separator="," close=")">CAST(#{organization} AS uuid)</foreach>
+         </when><otherwise>AND false</otherwise></choose>
+       </if>)
+    +(SELECT count(*) FROM classification.category child WHERE child.up_id=c.id)) AS usage_count</sql>
+  <select id="categories" resultType="kr.co.dtonic.datacatalog.classification.CategoryContracts$CategoryDetails">
+    SELECT <include refid="columns"/> FROM classification.category c ORDER BY c.sort_seq,c.cd LIMIT 1000
+  </select>
+  <select id="category" resultType="kr.co.dtonic.datacatalog.classification.CategoryContracts$CategoryDetails">
+    SELECT <include refid="columns"/> FROM classification.category c WHERE c.id=CAST(#{id} AS uuid)
+  </select>
+  <insert id="insertCategory">INSERT INTO classification.category(id,up_id,cd,nm,expln,actvtn_yn,sort_seq)
+    VALUES(CAST(#{id} AS uuid),CAST(#{parentId} AS uuid),#{code},#{name},#{description},#{active},#{ordinal})</insert>
+  <update id="updateCategory">UPDATE classification.category SET nm=#{name},expln=#{description},actvtn_yn=#{active},sort_seq=#{ordinal},lck_ver_no=lck_ver_no+1,mdfcn_dt=CURRENT_TIMESTAMP
+    WHERE id=CAST(#{id} AS uuid) AND lck_ver_no=#{version}</update>
+  <delete id="deleteCategory">DELETE FROM classification.category WHERE id=CAST(#{id} AS uuid) AND lck_ver_no=#{version}</delete>
+  <sql id="datasetScope">FROM catalog.dataset d JOIN identity.organization owner ON owner.id=d.psn_inst_id
+    JOIN catalog.dataset_revision r ON r.dtset_id=d.id
+    JOIN classification.category category ON category.id=r.main_clsf_id
+    WHERE owner.stts_cd='ACTIVE' AND (category.id=CAST(#{id} AS uuid) OR category.up_id=CAST(#{id} AS uuid)
+      OR EXISTS(SELECT 1 FROM catalog.revision_topic rt JOIN classification.category topic ON topic.id=rt.tpc_id
+        WHERE rt.rvsn_id=r.id AND (topic.id=CAST(#{id} AS uuid) OR topic.up_id=CAST(#{id} AS uuid))))
+    <if test="!platform">
+      <choose><when test="organizations.size() > 0">AND d.psn_inst_id IN
+        <foreach collection="organizations" item="organization" open="(" separator="," close=")">CAST(#{organization} AS uuid)</foreach>
+      </when><otherwise>AND false</otherwise></choose>
+    </if>
+  </sql>
+  <select id="datasetCount" resultType="long">SELECT count(DISTINCT d.id) <include refid="datasetScope"/></select>
+  <select id="datasets" resultType="kr.co.dtonic.datacatalog.classification.CategoryContracts$CategoryDatasetUsage">
+    WITH matching AS (SELECT DISTINCT ON(d.id) d.id AS dataset_id,r.id AS revision_id
+      <include refid="datasetScope"/> ORDER BY d.id,r.rvsn_no DESC)
+    SELECT m.dataset_id::text,r.id::text AS revision_id,r.ttl AS title,
+      coalesce(parent.nm,category.nm) AS field_name,
+      coalesce((SELECT string_agg(rt.nm_snpst,', ' ORDER BY rt.nm_snpst,rt.tpc_id) FROM catalog.revision_topic rt WHERE rt.rvsn_id=r.id),
+        CASE WHEN parent.id IS NULL THEN '' ELSE category.nm END) AS topic_name,
+      provider.inst_nm AS provider_organization_name,r.rls_rng_cd AS visibility,r.stts_cd AS revision_state,p.stts_cd AS publication_state,
+      r.rvsn_no AS revision_no,r.mdfcn_dt AS updated_at,NOT EXISTS(SELECT 1 FROM catalog.dataset_revision newer WHERE newer.dtset_id=m.dataset_id AND newer.rvsn_no>r.rvsn_no) AS current_revision
+    FROM matching m JOIN catalog.dataset_revision r ON r.id=m.revision_id
+    JOIN classification.category category ON category.id=r.main_clsf_id
+    LEFT JOIN classification.category parent ON parent.id=category.up_id
+    JOIN identity.organization provider ON provider.id=r.pvsn_inst_id
+    LEFT JOIN catalog.publication p ON p.rvsn_id=r.id
+    ORDER BY r.mdfcn_dt DESC,m.dataset_id DESC LIMIT #{size} OFFSET #{offset}
+  </select>
+</mapper>

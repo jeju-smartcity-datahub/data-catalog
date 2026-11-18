@@ -1,0 +1,14 @@
+.section { margin-top: 24px; }
+.content { min-width: 0; display: grid; gap: 20px; margin-top: 24px; }
+.content h3, .content > p { margin: 0; }
+.toolbar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.kinds, .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.kinds { min-inline-size: 0; margin: 0; padding: 0; border: 0; }
+.table { min-width: 720px; }
+.table td { overflow-wrap: anywhere; }
+.editorModal.editorModal { width: min(540px, calc(100vw - 32px)); }
+.form { display: grid; gap: 20px; }
+.form label { display: grid; gap: 10px; color: var(--color-muted); font-size: 14px; font-weight: 500; }
+.form input[readonly] { background: #f6f8fb; }
+.form p { margin: 0; }
+@media (max-width: 480px) { .toolbar { align-items: stretch; } .actions { width: 100%; } .section { padding: 20px; } }

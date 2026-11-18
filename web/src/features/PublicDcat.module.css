@@ -1,0 +1,11 @@
+.section { margin-top: 28px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-top: 16px; }
+.formats { border: 0; padding: 0; margin: 0; min-width: 0; }
+.formats legend { margin-bottom: 8px; color: var(--color-muted); font-size: 14px; }
+.formats div { display: flex; gap: 8px; }
+.state { margin: 16px 0; }
+.summary { margin: 14px 0; color: var(--color-muted); font-size: 14px; }
+.content { max-height: 360px; overflow: auto; padding: 16px; border: 1px solid var(--color-line); border-radius: 6px; background: var(--color-background); }
+.content pre { margin: 0; font: 14px/1.7 monospace; white-space: pre-wrap; word-break: normal; overflow-wrap: anywhere; }
+.pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 14px 0; }
+.message { margin: 12px 0; font-size: 14px; }

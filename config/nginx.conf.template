@@ -1,0 +1,91 @@
+# Search and its referring assets use generated diagnostics only. Never log
+# request URI, arguments, client IP, headers, account identifiers or free text.
+map $uri $catalog_search_route {
+    default related_asset;
+    ~^/datasets(?:/|$) datasets;
+    ~^/api/catalog/v1/(?:search|datasets)(?:/|$) catalog_search;
+    /api/catalog/v1/search-feedback search_feedback;
+    /api/catalog/v1/search-feedback-form search_feedback_form;
+}
+map $uri $catalog_is_search {
+    default 0;
+    ~^/datasets(?:/|$) 1;
+    ~^/api/catalog/v1/(?:search|datasets)(?:/|$) 1;
+    /api/catalog/v1/search-feedback 1;
+    /api/catalog/v1/search-feedback-form 1;
+}
+map $http_referer $catalog_search_referrer {
+    default 0;
+    ~\? 1;
+    ~% 1;
+    ~# 1;
+    ~/(?:\.\.?)(?:/|$) 1;
+    ~*^https?://[^/]+// 1;
+    ~*^https?://[^/]+/(?:datasets|api/catalog/v1/(?:search|datasets))(?:/|$) 1;
+}
+map $status $catalog_parse_private { default 0; 400 1; 414 1; 431 1; 494 1; }
+map $request_uri $catalog_uncanonical_request {
+    default 0;
+    ~% 1;
+    ~// 1;
+    ~/(?:\.\.?)(?:/|\?|$) 1;
+}
+map "$catalog_is_search:$catalog_search_referrer:$catalog_parse_private:$catalog_uncanonical_request" $catalog_private_log {
+    default 1;
+    0:0:0:0 0;
+}
+map $catalog_private_log $catalog_standard_log { default 0; 0 1; }
+map $request_method $catalog_log_method {
+    default OTHER;
+    GET GET; HEAD HEAD; POST POST; PUT PUT; PATCH PATCH; DELETE DELETE; OPTIONS OPTIONS;
+}
+map $status $catalog_log_diagnostic {
+    default other_status;
+    ~^[23] success;
+    400 bad_request; 401 authentication_required; 403 denied; 404 not_found;
+    408 client_timeout; 413 body_too_large; 414 uri_too_large; 429 rate_limited;
+    500 application_error; 502 upstream_failure; 503 unavailable; 504 upstream_timeout;
+}
+log_format catalog_search_privacy escape=json
+    '{"event":"catalog_search_http","time":"$time_iso8601","requestId":"$request_id",'
+    '"route":"$catalog_search_route","method":"$catalog_log_method","status":$status,'
+    '"diagnostic":"$catalog_log_diagnostic","bytes":$body_bytes_sent,"duration":"$request_time",'
+    '"upstreamStatus":"$upstream_status","connectTime":"$upstream_connect_time",'
+    '"headerTime":"$upstream_header_time","responseTime":"$upstream_response_time"}';
+
+server {
+    listen 8080;
+    server_name _;
+    server_tokens off;
+    absolute_redirect off;
+    client_max_body_size 10m;
+    root /usr/share/nginx/html;
+    access_log /var/log/nginx/access.log combined if=$catalog_standard_log;
+    access_log /var/log/nginx/access.log catalog_search_privacy if=$catalog_private_log;
+    proxy_set_header Forwarded "";
+    proxy_set_header X-Forwarded-Prefix "";
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Host $http_host;
+    proxy_set_header X-Forwarded-Proto http;
+    proxy_set_header X-Forwarded-Port ${CATALOG_HTTP_PORT};
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_connect_timeout 5s;
+    proxy_read_timeout 65s;
+    location = /healthz { access_log off; return 200 'ok'; }
+    location = /actuator/health { proxy_pass http://api:8080; }
+    location ^~ /api/ { proxy_pass http://api:8080; }
+    location = /catalog { return 302 /datasets; }
+    location = /admin { return 302 /admin/metadata; }
+    location = /admin/ { return 302 /admin/metadata; }
+    location ^~ /admin/assets/ { try_files $uri =404; }
+    location ^~ /admin/fonts/ { try_files $uri =404; }
+    location /admin/ {
+        add_header Cache-Control 'no-cache' always;
+        try_files $uri $uri/ /admin/index.html;
+    }
+    location / {
+        proxy_pass http://web:3000;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+    }
+}

@@ -1,0 +1,8 @@
+* text=auto eol=lf
+*.cmd -text
+*.pdf binary
+*.woff2 binary
+*.png binary
+*.ico binary
+*.jar binary
+third-party/** -text

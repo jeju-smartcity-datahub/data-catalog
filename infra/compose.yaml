@@ -1,0 +1,38 @@
+name: dtonic-catalog-dev
+services:
+  db:
+    image: postgres:17.11-bookworm
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-datacatalog}
+      POSTGRES_USER: ${POSTGRES_USER:-datacatalog}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run npm run env:init first}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-15432}:5432"
+    volumes:
+      - catalog-dev-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  db-test:
+    image: postgres:17.11-bookworm
+    profiles: [test]
+    environment:
+      POSTGRES_DB: datacatalog_test
+      POSTGRES_USER: ${POSTGRES_USER:-datacatalog}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run npm run env:init first}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    ports:
+      - "127.0.0.1:${POSTGRES_TEST_PORT:-15433}:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  catalog-dev-data:

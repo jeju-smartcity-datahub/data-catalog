@@ -1,0 +1,22 @@
+node_modules/
+target/
+.next/
+dist/
+coverage/
+.runtime/
+.tools/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+*.log
+*.tsbuildinfo
+next-env.d.ts
+*.key
+*.pem
+*.dump
+private/
+
+# Distributed license notices also cover bundled files under dist/.
+!third-party/npm/**/dist/

@@ -1,0 +1,18 @@
+:root {
+  --color-primary: #08398b;
+  --color-primary-soft: #edf3fd;
+  --color-background: #f7f9fc;
+  --color-surface: #fff;
+  --color-line: #dfe6ed;
+  --color-control-border: #78879a;
+  --color-text: #364153;
+  --color-muted: #546379;
+  --color-error: #b42318;
+  --color-danger-fill: #fd5454;
+  --color-badge-bg: #eff6ff;
+  --color-badge-text: #005eae;
+  --radius-control: 8px;
+  --radius-card: 10px;
+  --radius-modal: 16px;
+  --content-width: 1280px;
+}

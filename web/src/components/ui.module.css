@@ -1,0 +1,18 @@
+.button { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; white-space: nowrap; min-height: 48px; min-width: 72px; padding: 12px 16px; border: 1px solid transparent; border-radius: var(--radius-control); font-size: 15px; font-weight: 600; background: var(--color-primary); color: white; cursor: pointer; text-decoration: none; }
+.secondary { border-color: var(--color-line); background: white; color: var(--color-muted); }
+.danger { background: var(--color-danger-fill); color: #441010; }
+.input { width: 100%; min-height: 48px; padding: 12px 16px; background: white; color: var(--color-text); border: 1px solid var(--color-control-border); border-radius: var(--radius-control); }
+.input::placeholder { color: #667284; opacity: 1; }
+.badge { display: inline-block; padding: 5px 13px; border-radius: 5px; font-size: 13px; font-weight: 500; background: var(--color-badge-bg); color: var(--color-badge-text); }
+.green { background: #edfff4; color: #167640; }
+.yellow { background: #fff7e3; color: #8a5800; }
+.purple { background: #faf3ff; color: #9700ff; }
+.sky { background: #ecfbff; color: #006b88; }
+.gray { background: #f3f4f6; color: #536784; }
+.brightBlue { background: #eff6ff; color: #475eec; }
+.dialog { width: min(400px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); padding: 26px 28px; border: 1px solid var(--color-line); border-radius: var(--radius-modal); color: var(--color-text); box-shadow: 0 20px 60px #172b4826; }
+.dialog::backdrop { background: #172b4870; }
+.dialogWide { width: min(840px, calc(100vw - 32px)); }
+.dialog h2 { font-size: 20px; line-height: 1.4; }
+.dialog p { margin-top: 8px; }
+.actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }

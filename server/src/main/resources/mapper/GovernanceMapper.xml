@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Governance">
+  <sql id="categoryColumns">c.id::text,c.up_id::text AS parent_id,c.cd AS code,c.nm AS name,c.actvtn_yn AS active,c.sort_seq AS ordinal,c.lck_ver_no AS lock_version,
+    ((SELECT count(*) FROM catalog.dataset_revision r WHERE r.main_clsf_id=c.id)
+    +(SELECT count(*) FROM classification.category child WHERE child.up_id=c.id)) AS usage_count</sql>
+  <select id="categories" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$Category">
+    SELECT <include refid="categoryColumns"/> FROM classification.category c ORDER BY c.sort_seq,c.cd LIMIT 1000
+  </select>
+  <select id="category" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$Category">
+    SELECT <include refid="categoryColumns"/> FROM classification.category c WHERE c.id=CAST(#{value} AS uuid)
+  </select>
+  <insert id="insertCategory">INSERT INTO classification.category(id,up_id,cd,nm,actvtn_yn,sort_seq)
+    VALUES(CAST(#{id} AS uuid),CAST(#{parentId} AS uuid),#{code},#{name},#{active},#{ordinal})</insert>
+  <update id="updateCategory">UPDATE classification.category SET nm=#{name},actvtn_yn=#{active},sort_seq=#{ordinal},lck_ver_no=lck_ver_no+1,mdfcn_dt=CURRENT_TIMESTAMP
+    WHERE id=CAST(#{id} AS uuid) AND lck_ver_no=#{version}</update>
+  <delete id="deleteCategory">DELETE FROM classification.category WHERE id=CAST(#{id} AS uuid) AND lck_ver_no=#{version}</delete>
+  <sql id="dictionaryColumns">id::text,rng_cd AS scope,inst_id::text AS organization_id,cd AS code,nm AS name,sou_rfrnc_addr AS source_uri,ver_nm AS version_label,sou_hash_vl AS source_checksum</sql>
+  <select id="dictionaries" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$Dictionary">
+    SELECT <include refid="dictionaryColumns"/> FROM standard.dictionary WHERE
+    (rng_cd='PUBLIC' OR inst_id=CAST(#{organization} AS uuid)) ORDER BY rng_cd,cd,ver_nm LIMIT 1000
+  </select>
+  <select id="dictionary" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$Dictionary">
+    SELECT <include refid="dictionaryColumns"/> FROM standard.dictionary WHERE id=CAST(#{value} AS uuid)
+  </select>
+  <insert id="insertDictionary">INSERT INTO standard.dictionary(id,rng_cd,inst_id,cd,nm,ver_nm)
+    VALUES(CAST(#{id} AS uuid),'ORGANIZATION',CAST(#{organization} AS uuid),#{code},#{name},#{version})</insert>
+  <sql id="entryColumns">id::text,stddict_id::text AS dictionary_id,type_cd AS kind,cd AS code,nm AS name,dfn_cn AS definition,data_type_cd AS data_type,stts_cd AS state,lck_ver_no AS lock_version,creatr_id::text AS created_by,coalesce(mdfr_id,creatr_id)::text AS updated_by,sbmsn_user_id::text AS submitted_by,dcsn_user_id::text AS decided_by,dcsn_rsn AS decision_reason</sql>
+  <select id="entries" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$DictionaryEntry">
+    SELECT <include refid="entryColumns"/> FROM standard.dictionary_entry WHERE stddict_id=CAST(#{dictionary} AS uuid)
+    <if test="kind != null">AND type_cd=#{kind}</if> ORDER BY type_cd,cd LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="entry" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$DictionaryEntry">
+    SELECT <include refid="entryColumns"/> FROM standard.dictionary_entry WHERE id=CAST(#{value} AS uuid)
+  </select>
+  <insert id="insertEntry">INSERT INTO standard.dictionary_entry(id,stddict_id,type_cd,cd,nm,dfn_cn,data_type_cd,creatr_id,mdfr_id)
+    VALUES(CAST(#{id} AS uuid),CAST(#{dictionary} AS uuid),#{kind},#{code},#{name},#{definition},#{dataType},CAST(#{actor} AS uuid),CAST(#{actor} AS uuid))</insert>
+  <update id="updateEntry">UPDATE standard.dictionary_entry SET nm=#{name},dfn_cn=#{definition},data_type_cd=#{dataType},mdfr_id=CAST(#{actor} AS uuid),lck_ver_no=lck_ver_no+1,mdfcn_dt=CURRENT_TIMESTAMP
+    WHERE id=CAST(#{id} AS uuid) AND stts_cd='DRAFT' AND lck_ver_no=#{version}</update>
+  <update id="transitionEntry">UPDATE standard.dictionary_entry SET stts_cd=#{state},lck_ver_no=lck_ver_no+1,mdfcn_dt=CURRENT_TIMESTAMP,
+    sbmsn_user_id=CASE WHEN #{state}='IN_REVIEW' THEN CAST(#{actor} AS uuid) ELSE sbmsn_user_id END,
+    dcsn_user_id=CASE WHEN #{state} IN ('APPROVED','REJECTED') THEN CAST(#{actor} AS uuid) ELSE dcsn_user_id END,dcsn_rsn=#{reason}
+    WHERE id=CAST(#{id} AS uuid) AND stts_cd=#{oldState} AND lck_ver_no=#{version}</update>
+  <insert id="audit">INSERT INTO audit.audit_event(id,prcs_user_id,inst_id,prcs_cd,trgt_type_cd,trgt_id,dmnd_id,rslt_cd,chg_smry_cn)
+    VALUES(CAST(#{id} AS uuid),CAST(#{actor} AS uuid),CAST(#{organization} AS uuid),#{action},#{targetType},CAST(#{target} AS uuid),#{requestId},'SUCCESS','{}'::jsonb)</insert>
+  <insert id="analysis">INSERT INTO analytics.analysis_run(id,inst_id,dtset_rvsn_id,type_cd,engn_ver_nm,rqstr_id,stts_cd,data_artcl_cnt,sou_hash_vl,bss_cn)
+    VALUES(CAST(#{id} AS uuid),CAST(#{organization} AS uuid),CAST(#{revision} AS uuid),#{kind},'field-snapshot-v1',CAST(#{actor} AS uuid),'SUCCEEDED',#{count},#{hash},CAST(#{evidence} AS jsonb))</insert>
+  <select id="activeOrganization" resultType="boolean">SELECT EXISTS(SELECT 1 FROM identity.organization WHERE id=CAST(#{value} AS uuid) AND stts_cd='ACTIVE')</select>
+</mapper>

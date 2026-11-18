@@ -1,0 +1,4698 @@
+{
+  "version": 27,
+  "renames": [
+    {
+      "table": "analytics.search_result",
+      "old": "dataset_id",
+      "new": "dtset_id",
+      "logical": "데이터셋아이디"
+    },
+    {
+      "table": "analytics.search_result",
+      "old": "publication_no",
+      "new": "pstg_no",
+      "logical": "게시번호"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "source_hash",
+      "new": "sou_hash_vl",
+      "logical": "수집해시값"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "error_code",
+      "new": "err_cd",
+      "logical": "오류코드"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "created_at",
+      "new": "crt_dt",
+      "logical": "생성일시"
+    },
+    {
+      "table": "integration.publication_batch",
+      "old": "actor_id",
+      "new": "prcs_user_id",
+      "logical": "처리사용자아이디"
+    },
+    {
+      "table": "integration.publication_batch",
+      "old": "key_hash",
+      "new": "idmpt_key_hash_vl",
+      "logical": "멱등키해시값"
+    },
+    {
+      "table": "integration.publication_batch",
+      "old": "request_hash",
+      "new": "dmnd_hash_vl",
+      "logical": "요청해시값"
+    },
+    {
+      "table": "integration.publication_batch",
+      "old": "created_at",
+      "new": "crt_dt",
+      "logical": "생성일시"
+    },
+    {
+      "table": "integration.publication_policy",
+      "old": "actor_id",
+      "new": "prcs_user_id",
+      "logical": "처리사용자아이디"
+    },
+    {
+      "table": "integration.publication_policy",
+      "old": "lock_version",
+      "new": "lck_ver_no",
+      "logical": "잠금버전번호"
+    },
+    {
+      "table": "integration.publication_policy",
+      "old": "updated_at",
+      "new": "mdfcn_dt",
+      "logical": "수정일시"
+    },
+    {
+      "table": "integration.publication_result",
+      "old": "created_at",
+      "new": "crt_dt",
+      "logical": "생성일시"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "dataset_id",
+      "new": "dtset_id",
+      "logical": "데이터셋아이디"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "connection_id",
+      "new": "sou_lnkg_id",
+      "logical": "수집연결아이디"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "enabled",
+      "new": "use_yn",
+      "logical": "사용여부"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "mode",
+      "new": "inq_mode_cd",
+      "logical": "조회방식코드"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "query_path",
+      "new": "inq_path",
+      "logical": "조회경로"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "scope_field",
+      "new": "fltr_fld_nm",
+      "logical": "필터필드명"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "scope_value",
+      "new": "fltr_vl",
+      "logical": "필터값"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "scope_parameter",
+      "new": "fltr_param_nm",
+      "logical": "필터매개변수명"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "fixed_query",
+      "new": "fix_inq_cn",
+      "logical": "고정조회내용"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "lock_version",
+      "new": "lck_ver_no",
+      "logical": "잠금버전번호"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "checked_connection_version",
+      "new": "insp_lnkg_ver_no",
+      "logical": "검사연결버전번호"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "checked_at",
+      "new": "insp_dt",
+      "logical": "검사일시"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "updated_by",
+      "new": "mdfr_id",
+      "logical": "수정자아이디"
+    },
+    {
+      "table": "delivery.dataset_data_access",
+      "old": "updated_at",
+      "new": "mdfcn_dt",
+      "logical": "수정일시"
+    },
+    {
+      "table": "delivery.data_access_event",
+      "old": "dataset_id",
+      "new": "dtset_id",
+      "logical": "데이터셋아이디"
+    },
+    {
+      "table": "delivery.data_access_event",
+      "old": "actor_id",
+      "new": "prcs_user_id",
+      "logical": "처리사용자아이디"
+    },
+    {
+      "table": "delivery.data_access_event",
+      "old": "action",
+      "new": "prcs_cd",
+      "logical": "처리코드"
+    },
+    {
+      "table": "delivery.data_access_event",
+      "old": "configuration_version",
+      "new": "stng_ver_no",
+      "logical": "설정버전번호"
+    },
+    {
+      "table": "delivery.data_access_event",
+      "old": "occurred_at",
+      "new": "ocrn_dt",
+      "logical": "발생일시"
+    },
+    {
+      "table": "analytics.search_event",
+      "old": "expires_at",
+      "new": "expry_dt",
+      "logical": "만료일시"
+    },
+    {
+      "table": "analytics.search_event",
+      "old": "feedback_token_hash",
+      "new": "feedback_tkn_hash_vl",
+      "logical": "평가토큰해시값"
+    },
+    {
+      "table": "analytics.search_event",
+      "old": "returned_size",
+      "new": "returned_page_sz",
+      "logical": "응답페이지크기"
+    },
+    {
+      "table": "analytics.search_feedback",
+      "old": "search_event_id",
+      "new": "srch_event_id",
+      "logical": "검색이벤트아이디"
+    },
+    {
+      "table": "analytics.search_feedback",
+      "old": "rating",
+      "new": "srch_feedback_cd",
+      "logical": "검색평가코드"
+    },
+    {
+      "table": "analytics.search_feedback",
+      "old": "rated_at",
+      "new": "feedback_dt",
+      "logical": "평가일시"
+    },
+    {
+      "table": "analytics.search_result",
+      "old": "search_event_id",
+      "new": "srch_event_id",
+      "logical": "검색이벤트아이디"
+    },
+    {
+      "table": "analytics.search_result",
+      "old": "ordinal",
+      "new": "seq_no",
+      "logical": "순서번호"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "connection_id",
+      "new": "lnkg_id",
+      "logical": "연결아이디"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "candidate_id",
+      "new": "sou_cand_id",
+      "logical": "수집후보아이디"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "policy_version",
+      "new": "pstg_stng_ver_no",
+      "logical": "게시설정버전번호"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "connection_version",
+      "new": "lnkg_stng_ver_no",
+      "logical": "연결설정버전번호"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "old": "status",
+      "new": "stts_cd",
+      "logical": "상태코드"
+    },
+    {
+      "table": "integration.publication_batch",
+      "old": "connection_id",
+      "new": "lnkg_id",
+      "logical": "연결아이디"
+    },
+    {
+      "table": "integration.publication_batch",
+      "old": "policy_snapshot",
+      "new": "pstg_stng_cn",
+      "logical": "게시설정내용"
+    },
+    {
+      "table": "integration.publication_policy",
+      "old": "connection_id",
+      "new": "lnkg_id",
+      "logical": "연결아이디"
+    },
+    {
+      "table": "integration.publication_policy",
+      "old": "default_category_id",
+      "new": "default_clsf_id",
+      "logical": "기본분류아이디"
+    },
+    {
+      "table": "integration.publication_result",
+      "old": "candidate_id",
+      "new": "sou_cand_id",
+      "logical": "수집후보아이디"
+    },
+    {
+      "table": "integration.publication_result",
+      "old": "result",
+      "new": "pstg_rslt_cn",
+      "logical": "게시결과내용"
+    },
+    {
+      "table": "integration.sync_run",
+      "old": "tot_itm_cnt",
+      "new": "tot_artcl_cnt",
+      "logical": "전체항목수"
+    },
+    {
+      "table": "integration.sync_run",
+      "old": "prcs_itm_cnt",
+      "new": "prcs_artcl_cnt",
+      "logical": "처리항목수"
+    },
+    {
+      "table": "integration.sync_run",
+      "old": "save_itm_cnt",
+      "new": "save_artcl_cnt",
+      "logical": "저장항목수"
+    },
+    {
+      "table": "integration.sync_run",
+      "old": "unchg_itm_cnt",
+      "new": "unchg_artcl_cnt",
+      "logical": "미변경항목수"
+    },
+    {
+      "table": "integration.sync_run",
+      "old": "fail_itm_cnt",
+      "new": "fail_artcl_cnt",
+      "logical": "실패항목수"
+    }
+  ],
+  "typeChanges": [
+    {
+      "table": "analytics.analysis_run",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "analytics.report",
+      "column": "type_cd",
+      "old": "character varying(10)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "catalog.dataset_revision",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "catalog.discovery_lookup",
+      "column": "type_cd",
+      "old": "character varying(10)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "catalog.discovery_lookup",
+      "column": "cd",
+      "old": "character varying(80)",
+      "new": "character varying(100)"
+    },
+    {
+      "table": "catalog.publication",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "catalog.revision_discovery",
+      "column": "type_cd",
+      "old": "character varying(10)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "classification.category",
+      "column": "cd",
+      "old": "character varying(80)",
+      "new": "character varying(100)"
+    },
+    {
+      "table": "classification.category",
+      "column": "expln",
+      "old": "character varying(4000)",
+      "new": "text"
+    },
+    {
+      "table": "delivery.data_access_event",
+      "column": "prcs_cd",
+      "old": "character varying(30)",
+      "new": "character varying(80)"
+    },
+    {
+      "table": "delivery.data_service_version",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "identity.local_account",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "identity.organization",
+      "column": "cd",
+      "old": "character varying(80)",
+      "new": "character varying(100)"
+    },
+    {
+      "table": "identity.organization",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "integration.auto_publication_task",
+      "column": "stts_cd",
+      "old": "character varying(12)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "integration.candidate_application",
+      "column": "sou_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "integration.candidate_application",
+      "column": "dmnd_id",
+      "old": "character varying(64)",
+      "new": "character varying(100)"
+    },
+    {
+      "table": "integration.candidate_application",
+      "column": "idmpt_key_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "integration.candidate_application",
+      "column": "dmnd_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "integration.connection_event",
+      "column": "prcs_cd",
+      "old": "character varying(40)",
+      "new": "character varying(80)"
+    },
+    {
+      "table": "integration.connection_event",
+      "column": "dmnd_id",
+      "old": "character varying(64)",
+      "new": "character varying(100)"
+    },
+    {
+      "table": "integration.source_metadata",
+      "column": "sou_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "integration.sync_item",
+      "column": "sou_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "integration.sync_item",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "integration.sync_run",
+      "column": "type_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "integration.sync_run",
+      "column": "idmpt_key_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "integration.sync_run",
+      "column": "dmnd_hash_vl",
+      "old": "character(64)",
+      "new": "character varying(64)"
+    },
+    {
+      "table": "metadata.review_request",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "standard.definition_import",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "standard.dictionary",
+      "column": "cd",
+      "old": "character varying(80)",
+      "new": "character varying(100)"
+    },
+    {
+      "table": "standard.dictionary_entry",
+      "column": "type_cd",
+      "old": "character varying(10)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "standard.dictionary_entry",
+      "column": "stts_cd",
+      "old": "character varying(20)",
+      "new": "character varying(30)"
+    },
+    {
+      "table": "standard.dictionary_export",
+      "column": "type_cd",
+      "old": "character varying(10)",
+      "new": "character varying(30)"
+    }
+  ],
+  "commonDomains": {
+    "cd": "character varying(100)",
+    "dmnd_hash_vl": "character varying(64)",
+    "dmnd_id": "character varying(100)",
+    "expln": "text",
+    "idmpt_key_hash_vl": "character varying(64)",
+    "prcs_cd": "character varying(80)",
+    "sou_hash_vl": "character varying(64)",
+    "stts_cd": "character varying(30)",
+    "type_cd": "character varying(30)"
+  },
+  "remarks": [
+    "공통 상태·유형·처리·분류 코드의 저장 도메인은 길이를 축소하지 않고 통일. 업무별 코드값과 CHECK 제약은 유지.",
+    "외부 API JSON 필드명·기존 행 값·계정·허브 설정·게시 스냅샷 유지."
+  ],
+  "columns": [
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 아이디.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 기관아이디. identity.organization 참조.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "dtset_rvsn_id",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 데이터셋개정아이디. catalog.dataset_revision 참조.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 유형코드. 허용 코드: DEFINITION_EXPORT, FIELD_MAPPING, DEFINITION_IMPORT.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "engn_ver_nm",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(50)",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 엔진버전명.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "rqstr_id",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 요청자아이디.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "bgng_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 시작일시.",
+      "schema_name": "analytics",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "end_dt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 종료일시.",
+      "schema_name": "analytics",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 상태코드. 허용 코드: SUCCEEDED, FAILED.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "data_artcl_cnt",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 자료항목수.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 원천해시값.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "dfn_inpt_id",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 정의입력아이디. standard.definition_import 참조.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "bss_cn",
+      "ordinal": 13,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 근거내용.",
+      "schema_name": "analytics",
+      "default_value": "'[]'::jsonb"
+    },
+    {
+      "name": "err_cd",
+      "ordinal": 14,
+      "not_null": false,
+      "data_type": "character varying(80)",
+      "table_name": "analysis_run",
+      "description": "메타데이터 분석 이력의 오류코드.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "dfn_dgns_cn",
+      "ordinal": 15,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "analysis_run",
+      "description": "정의서 추출 규칙 점수와 항목별 미생성 사유. 과거 기록은 빈 객체이며 원문 값은 저장하지 않는다.",
+      "schema_name": "analytics",
+      "default_value": "'{}'::jsonb"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "report",
+      "description": "검색분석 보고서의 아이디.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "rqstr_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "report",
+      "description": "검색분석 보고서의 요청자아이디.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "report",
+      "description": "검색분석 보고서의 기관아이디. identity.organization 참조.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "report",
+      "description": "검색분석 보고서의 유형코드. 허용 코드: SEARCH, ANALYSIS.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "file_fmt_cd",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(4)",
+      "table_name": "report",
+      "description": "검색분석 보고서의 파일형식코드. 허용 코드: JSON, CSV.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "inq_cnd_cn",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "report",
+      "description": "검색분석 보고서의 조회조건내용.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "crtr_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "report",
+      "description": "검색분석 보고서의 기준일시.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "row_cnt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "report",
+      "description": "검색분석 보고서의 행수.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "key_hash_vl",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "report",
+      "description": "검색분석 보고서의 키해시값.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "report",
+      "description": "검색분석 보고서의 요청해시값.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "cn_hash_vl",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "report",
+      "description": "검색분석 보고서의 내용해시값.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "file_cn",
+      "ordinal": 12,
+      "not_null": true,
+      "data_type": "bytea",
+      "table_name": "report",
+      "description": "검색분석 보고서의 파일내용.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 13,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "report",
+      "description": "검색분석 보고서의 생성일시.",
+      "schema_name": "analytics",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "expry_dt",
+      "ordinal": 14,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "report",
+      "description": "검색분석 보고서의 만료일시.",
+      "schema_name": "analytics",
+      "default_value": "(CURRENT_TIMESTAMP + '24:00:00'::interval)"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 아이디.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 요청아이디.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "ocrn_dt",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 발생일시.",
+      "schema_name": "analytics",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "srch_cn_exst_yn",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 검색내용존재여부.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "nrmlz_srch_cnd_cn",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 정규화검색조건내용.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "rslt_cnt",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 결과수.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "req_ms_cnt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 소요밀리초수. 단위는 밀리초.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "srch_rng_cd",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "search_event",
+      "description": "공개 검색 이력의 검색범위코드. 허용 코드: PUBLIC.",
+      "schema_name": "analytics",
+      "default_value": "'PUBLIC'::character varying"
+    },
+    {
+      "name": "query_repr",
+      "ordinal": 9,
+      "not_null": false,
+      "data_type": "jsonb",
+      "table_name": "search_event",
+      "description": "Allowlisted query intent/concept codes only. No raw query, hash, identity, IP or free text.",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "expry_dt",
+      "ordinal": 10,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "search_event",
+      "description": "만료일시",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "feedback_tkn_hash_vl",
+      "ordinal": 11,
+      "not_null": false,
+      "data_type": "character varying(64)",
+      "table_name": "search_event",
+      "description": "평가토큰해시값",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "returned_page",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "integer",
+      "table_name": "search_event",
+      "description": null,
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "returned_page_sz",
+      "ordinal": 13,
+      "not_null": false,
+      "data_type": "integer",
+      "table_name": "search_event",
+      "description": "응답페이지크기",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "srch_event_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "search_feedback",
+      "description": "검색이벤트아이디",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "srch_feedback_cd",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "search_feedback",
+      "description": "검색평가코드",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "feedback_dt",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "search_feedback",
+      "description": "평가일시",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "srch_event_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "search_result",
+      "description": "검색이벤트아이디",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "seq_no",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "search_result",
+      "description": "순서번호",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "search_result",
+      "description": "데이터셋아이디",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "pstg_no",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "search_result",
+      "description": "게시번호",
+      "schema_name": "analytics",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 아이디.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "srvc_ver_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 서비스버전아이디. delivery.data_service_version 참조.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "doc_rvsn_no",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 문서개정번호.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "doc_type_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 문서유형코드. 허용 코드: OPENAPI.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "oapi_snpst_cn",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 오픈API스냅샷내용. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "spcfct_hash_vl",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 규격해시값.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "schm_hash_vl",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 스키마해시값.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "crt_ver_nm",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "character varying(40)",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 생성버전명.",
+      "schema_name": "apidocs",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "api_document_version",
+      "description": "소비자 API 문서 버전의 생성일시.",
+      "schema_name": "apidocs",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 아이디.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "ocrn_dt",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 발생일시.",
+      "schema_name": "audit",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "prcs_user_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 처리사용자아이디.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 4,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 기관아이디. identity.organization 참조.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 데이터셋아이디. catalog.dataset 참조.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "prcs_cd",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 처리코드.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "trgt_type_cd",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 대상유형코드.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "trgt_id",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 대상아이디.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_id",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 요청아이디.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "rslt_cd",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 결과코드.",
+      "schema_name": "audit",
+      "default_value": "'SUCCESS'::character varying"
+    },
+    {
+      "name": "chg_smry_cn",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "audit_event",
+      "description": "업무 감사 이력의 변경요약내용.",
+      "schema_name": "audit",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset",
+      "description": "데이터셋의 아이디. catalog.publication 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "psn_inst_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset",
+      "description": "데이터셋의 소유기관아이디. identity.organization 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "slug_nm",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(160)",
+      "table_name": "dataset",
+      "description": "데이터셋의 슬러그명.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "mng_stts_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "dataset",
+      "description": "데이터셋의 관리상태코드. 허용 코드: ACTIVE, RETIRED.",
+      "schema_name": "catalog",
+      "default_value": "'ACTIVE'::character varying"
+    },
+    {
+      "name": "now_pstg_id",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dataset",
+      "description": "데이터셋의 현재게시아이디. catalog.publication 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "dataset",
+      "description": "데이터셋의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "catalog",
+      "default_value": "0"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dataset",
+      "description": "데이터셋의 생성일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dataset",
+      "description": "데이터셋의 수정일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 아이디.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 데이터셋아이디. catalog.dataset 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_no",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 개정번호.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 상태코드. 허용 코드: DRAFT, IN_REVIEW, APPROVED, REJECTED.",
+      "schema_name": "catalog",
+      "default_value": "'DRAFT'::character varying"
+    },
+    {
+      "name": "ttl",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(300)",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 제목.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "expln",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "text",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 설명.",
+      "schema_name": "catalog",
+      "default_value": "''::text"
+    },
+    {
+      "name": "pvsn_inst_id",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 제공기관아이디. identity.organization 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "main_clsf_id",
+      "ordinal": 8,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 주요분류아이디. classification.category 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "rls_rng_cd",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 공개범위코드. 허용 코드: PUBLIC, ORGANIZATION, PRIVATE.",
+      "schema_name": "catalog",
+      "default_value": "'PRIVATE'::character varying"
+    },
+    {
+      "name": "mtdt_cn",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 메타데이터내용.",
+      "schema_name": "catalog",
+      "default_value": "'{}'::jsonb"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 생성일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "cn_hash_vl",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "character varying(64)",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 내용해시값.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "creatr_id",
+      "ordinal": 13,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 생성자ID.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "mdfr_id",
+      "ordinal": 14,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 수정자ID.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 15,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dataset_revision",
+      "description": "데이터셋 메타데이터 개정본의 수정일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 아이디.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 유형코드. 허용 코드: REGION, HUB.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "cd",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 코드.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "nm",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 명.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "actvtn_yn",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 활성여부.",
+      "schema_name": "catalog",
+      "default_value": "true"
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "catalog",
+      "default_value": "0"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 생성일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "discovery_lookup",
+      "description": "공개 탐색 지역허브 분류의 수정일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 아이디.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 데이터셋아이디. catalog.dataset 참조; catalog.dataset_revision 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 개정아이디. catalog.dataset_revision 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "pstg_no",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 게시번호.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 상태코드. 허용 코드: PUBLISHED, WITHDRAWN.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "acs_stts_cd",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 접근상태코드. 허용 코드: METADATA_ONLY, LINK_READY, SERVICE_READY, UNAVAILABLE.",
+      "schema_name": "catalog",
+      "default_value": "'METADATA_ONLY'::character varying"
+    },
+    {
+      "name": "pstg_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 게시일시.",
+      "schema_name": "catalog",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "rcntt_dt",
+      "ordinal": 8,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 철회일시.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "rvw_dcsn_id",
+      "ordinal": 9,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 검토결정아이디. metadata.review_decision 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "pstg_user_id",
+      "ordinal": 10,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 게시사용자아이디.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "catalog",
+      "default_value": "0"
+    },
+    {
+      "name": "rcntt_rsn",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "character varying(2000)",
+      "table_name": "publication",
+      "description": "데이터셋 게시본의 철회사유.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "revision_discovery",
+      "description": "개정본 지역허브 연결의 개정아이디. catalog.dataset_revision 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "clsf_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "revision_discovery",
+      "description": "개정본 지역허브 연결의 분류아이디. catalog.discovery_lookup 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "revision_discovery",
+      "description": "개정본 지역허브 연결의 유형코드. catalog.discovery_lookup 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "nm_snpst",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "revision_discovery",
+      "description": "개정본 지역허브 연결의 명스냅샷. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "revision_topic",
+      "description": "개정본 주제 연결의 개정아이디. catalog.dataset_revision 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "tpc_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "revision_topic",
+      "description": "개정본 주제 연결의 주제아이디. classification.category 참조.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "nm_snpst",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "revision_topic",
+      "description": "개정본 주제 연결의 명스냅샷. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다.",
+      "schema_name": "catalog",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "category",
+      "description": "분야주제 분류의 아이디.",
+      "schema_name": "classification",
+      "default_value": null
+    },
+    {
+      "name": "up_id",
+      "ordinal": 2,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "category",
+      "description": "분야주제 분류의 상위아이디. classification.category 참조.",
+      "schema_name": "classification",
+      "default_value": null
+    },
+    {
+      "name": "cd",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "category",
+      "description": "분야주제 분류의 코드.",
+      "schema_name": "classification",
+      "default_value": null
+    },
+    {
+      "name": "nm",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "category",
+      "description": "분야주제 분류의 명.",
+      "schema_name": "classification",
+      "default_value": null
+    },
+    {
+      "name": "actvtn_yn",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "category",
+      "description": "분야주제 분류의 활성여부.",
+      "schema_name": "classification",
+      "default_value": "true"
+    },
+    {
+      "name": "sort_seq",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "category",
+      "description": "분야주제 분류의 정렬순서.",
+      "schema_name": "classification",
+      "default_value": "0"
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "category",
+      "description": "분야주제 분류의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "classification",
+      "default_value": "0"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "category",
+      "description": "분야주제 분류의 생성일시.",
+      "schema_name": "classification",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "category",
+      "description": "분야주제 분류의 수정일시.",
+      "schema_name": "classification",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "expln",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "text",
+      "table_name": "category",
+      "description": "분야주제 분류의 설명.",
+      "schema_name": "classification",
+      "default_value": "''::character varying"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "data_access_event",
+      "description": "아이디",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "data_access_event",
+      "description": "데이터셋아이디",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "prcs_user_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "data_access_event",
+      "description": "처리사용자아이디",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "prcs_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "data_access_event",
+      "description": "처리코드",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "stng_ver_no",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "data_access_event",
+      "description": "설정버전번호",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "ocrn_dt",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "data_access_event",
+      "description": "발생일시",
+      "schema_name": "delivery",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 아이디.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 데이터셋아이디. catalog.dataset 참조.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "ctrt_ver_no",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 계약버전번호.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "pvsn_type_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 제공유형코드. 허용 코드: LINK, PROXY, MATERIALIZED.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "acs_plcy_cd",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 접근정책코드. 허용 코드: PUBLIC, UPSTREAM_AUTH, RESTRICTED.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 상태코드. 허용 코드: DRAFT, VERIFIED, REVOKED.",
+      "schema_name": "delivery",
+      "default_value": "'DRAFT'::character varying"
+    },
+    {
+      "name": "vrfc_lvl_cd",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 검증수준코드. 허용 코드: FIXTURE, REAL_CONTRACT.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "schm_snpst_cn",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 스키마스냅샷내용. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "schm_hash_vl",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 스키마해시값.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "ctrt_snpst_cn",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 계약스냅샷내용. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "ctrt_hash_vl",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 계약해시값.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 12,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "data_service_version",
+      "description": "데이터 제공 계약 버전의 생성일시.",
+      "schema_name": "delivery",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset_data_access",
+      "description": "데이터셋아이디",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "sou_lnkg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset_data_access",
+      "description": "수집연결아이디",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "use_yn",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "dataset_data_access",
+      "description": "사용여부",
+      "schema_name": "delivery",
+      "default_value": "false"
+    },
+    {
+      "name": "inq_mode_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "dataset_data_access",
+      "description": "조회방식코드",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "inq_path",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(500)",
+      "table_name": "dataset_data_access",
+      "description": "조회경로",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "fltr_fld_nm",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "dataset_data_access",
+      "description": "필터필드명",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "fltr_vl",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(300)",
+      "table_name": "dataset_data_access",
+      "description": "필터값",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "fltr_param_nm",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "dataset_data_access",
+      "description": "필터매개변수명",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "fix_inq_cn",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "dataset_data_access",
+      "description": "고정조회내용",
+      "schema_name": "delivery",
+      "default_value": "'{}'::jsonb"
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "dataset_data_access",
+      "description": "잠금버전번호",
+      "schema_name": "delivery",
+      "default_value": "0"
+    },
+    {
+      "name": "insp_lnkg_ver_no",
+      "ordinal": 11,
+      "not_null": false,
+      "data_type": "bigint",
+      "table_name": "dataset_data_access",
+      "description": "검사연결버전번호",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "insp_dt",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "dataset_data_access",
+      "description": "검사일시",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "mdfr_id",
+      "ordinal": 13,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dataset_data_access",
+      "description": "수정자아이디",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 14,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dataset_data_access",
+      "description": "수정일시",
+      "schema_name": "delivery",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_service",
+      "description": "게시본 제공 계약 연결의 데이터셋아이디. catalog.publication 참조; delivery.data_service_version 참조.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "pstg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_service",
+      "description": "게시본 제공 계약 연결의 게시아이디. catalog.publication 참조.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "srvc_ver_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_service",
+      "description": "게시본 제공 계약 연결의 서비스버전아이디. delivery.data_service_version 참조.",
+      "schema_name": "delivery",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "local_account",
+      "description": "로컬 계정의 아이디. 서버 CatalogPrincipal 사용자 식별자.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "lgn_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "local_account",
+      "description": "로그인아이디. 소문자 ASCII 3~80자 정규화 유일값.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "pwd_hash",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(60)",
+      "table_name": "local_account",
+      "description": "비밀번호해시. BCrypt 비용 12의 60자 해시만 저장하며 원문은 저장하지 않는다.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "local_account",
+      "description": "상태코드. ACTIVE, INACTIVE; 기본 비활성.",
+      "schema_name": "identity",
+      "default_value": "'INACTIVE'::character varying"
+    },
+    {
+      "name": "auth_ver_no",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "local_account",
+      "description": "인증버전번호. 계정·권한·기관 범위 변경 시 증가하며 기존 세션을 무효화한다.",
+      "schema_name": "identity",
+      "default_value": "0"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "local_account",
+      "description": "생성일시.",
+      "schema_name": "identity",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "local_account",
+      "description": "수정일시.",
+      "schema_name": "identity",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "acnt_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "local_account_organization",
+      "description": "계정아이디.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "local_account_organization",
+      "description": "기관아이디.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "acnt_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "local_account_role",
+      "description": "계정아이디.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "role_cd",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "local_account_role",
+      "description": "역할코드. PLATFORM_ADMIN, ORG_EDITOR, ORG_REVIEWER, ORG_PUBLISHER, ORG_AUDITOR.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "organization",
+      "description": "기관의 아이디.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "cd",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "organization",
+      "description": "기관의 코드.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "inst_nm",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "organization",
+      "description": "기관의 기관명.",
+      "schema_name": "identity",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "organization",
+      "description": "기관의 상태코드. 허용 코드: ACTIVE, INACTIVE.",
+      "schema_name": "identity",
+      "default_value": "'ACTIVE'::character varying"
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "organization",
+      "description": "기관의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "identity",
+      "default_value": "0"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "organization",
+      "description": "기관의 생성일시.",
+      "schema_name": "identity",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "organization",
+      "description": "기관의 수정일시.",
+      "schema_name": "identity",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "auto_publication_task",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lnkg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "auto_publication_task",
+      "description": "연결아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_cand_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "auto_publication_task",
+      "description": "수집후보아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "auto_publication_task",
+      "description": "수집해시값",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "pstg_stng_ver_no",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "auto_publication_task",
+      "description": "게시설정버전번호",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lnkg_stng_ver_no",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "auto_publication_task",
+      "description": "연결설정버전번호",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "auto_publication_task",
+      "description": "상태코드",
+      "schema_name": "integration",
+      "default_value": "'PENDING'::character varying"
+    },
+    {
+      "name": "lease_until",
+      "ordinal": 8,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "auto_publication_task",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "err_cd",
+      "ordinal": 9,
+      "not_null": false,
+      "data_type": "character varying(80)",
+      "table_name": "auto_publication_task",
+      "description": "오류코드",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "message",
+      "ordinal": 10,
+      "not_null": false,
+      "data_type": "character varying(1000)",
+      "table_name": "auto_publication_task",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "auto_publication_task",
+      "description": "생성일시",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_mtdt_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 원천메타데이터아이디. integration.source_metadata 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_rvsn_no",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 원천개정번호.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 원천해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 데이터셋아이디. catalog.dataset 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dtset_rvsn_id",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 데이터셋개정아이디. catalog.dataset_revision 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dtset_lck_ver_no",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 데이터셋잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcs_user_id",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 처리사용자아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_id",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 요청아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "idmpt_key_hash_vl",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 멱등키해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 요청해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aplcn_dt",
+      "ordinal": 12,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "candidate_application",
+      "description": "수집 후보 적용 이력의 적용일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lnkg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 연결아이디. integration.source_connection 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcs_user_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 처리사용자아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcs_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 처리코드.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_id",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 요청아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "stng_ver_no",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 설정버전번호.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "ocrn_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "connection_event",
+      "description": "원천 연결 변경 이력의 발생일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_batch",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lnkg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_batch",
+      "description": "연결아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcs_user_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_batch",
+      "description": "처리사용자아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "idmpt_key_hash_vl",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "publication_batch",
+      "description": "멱등키해시값",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "publication_batch",
+      "description": "요청해시값",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "mode",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(10)",
+      "table_name": "publication_batch",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "pstg_stng_cn",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "publication_batch",
+      "description": "게시설정내용",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "publication_batch",
+      "description": "생성일시",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "lnkg_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_policy",
+      "description": "연결아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "enabled",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "publication_policy",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": "false"
+    },
+    {
+      "name": "department",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "character varying(200)",
+      "table_name": "publication_policy",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "license",
+      "ordinal": 4,
+      "not_null": false,
+      "data_type": "character varying(500)",
+      "table_name": "publication_policy",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "keywords",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "publication_policy",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": "'[]'::jsonb"
+    },
+    {
+      "name": "default_clsf_id",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "publication_policy",
+      "description": "기본분류아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcs_user_id",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_policy",
+      "description": "처리사용자아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "publication_policy",
+      "description": "잠금버전번호",
+      "schema_name": "integration",
+      "default_value": "0"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "publication_policy",
+      "description": "수정일시",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "batch_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_result",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_cand_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "publication_result",
+      "description": "수집후보아이디",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "pstg_rslt_cn",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "publication_result",
+      "description": "게시결과내용",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "publication_result",
+      "description": "생성일시",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 기관아이디. identity.organization 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "nm",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 명.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "adptr_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 어댑터코드.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lnkg_addr",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "text",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 연결주소.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "secrt_rfrnc_nm",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "character varying(200)",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 비밀참조명. 실제 자격증명이 아닌 서버 비밀 저장소 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "use_yn",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 사용여부.",
+      "schema_name": "integration",
+      "default_value": "false"
+    },
+    {
+      "name": "lmt_sec_cnt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 제한초수. 원천 호출 제한 시간, 단위는 초.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "max_prcstry_nmtm",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 최대처리시도횟수.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "max_qpage_cnt",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 최대조회페이지수.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "integration",
+      "default_value": "0"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 12,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 생성일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 13,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "source_connection",
+      "description": "원천 연결 설정의 수정일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_lnkg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 원천연결아이디. integration.source_connection 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "otsd_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(300)",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 외부아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 원천해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_rvsn_nm",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "character varying(300)",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 원천개정명.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "cand_cn",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 후보내용.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "mpng_ver_nm",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 매핑버전명.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_no",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 개정번호.",
+      "schema_name": "integration",
+      "default_value": "1"
+    },
+    {
+      "name": "last_excn_id",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 최종실행아이디. integration.sync_run 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 수정일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 11,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 데이터셋아이디. catalog.dataset 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aplcn_sou_hash_vl",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "character(64)",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 적용원천해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aplcn_ttl",
+      "ordinal": 13,
+      "not_null": false,
+      "data_type": "character varying(300)",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 적용제목.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aplcn_expln",
+      "ordinal": 14,
+      "not_null": false,
+      "data_type": "text",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 적용설명.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aplcn_ver_no",
+      "ordinal": 15,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 적용버전번호.",
+      "schema_name": "integration",
+      "default_value": "0"
+    },
+    {
+      "name": "aplcn_dt",
+      "ordinal": 16,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "source_metadata",
+      "description": "수집 원천 메타데이터 후보의 적용일시.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aplcn_mtdt_cn",
+      "ordinal": 17,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "source_metadata",
+      "description": "마지막 적용 허브 메타데이터. 이후 수집 및 수동 편집의 비교 기준",
+      "schema_name": "integration",
+      "default_value": "'{}'::jsonb"
+    },
+    {
+      "name": "sou_lnkg_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_checkpoint",
+      "description": "수집 동기화 점검점의 원천연결아이디. integration.source_connection 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "cursr_vl",
+      "ordinal": 2,
+      "not_null": false,
+      "data_type": "text",
+      "table_name": "sync_checkpoint",
+      "description": "수집 동기화 점검점의 커서값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "last_scs_excn_id",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "sync_checkpoint",
+      "description": "수집 동기화 점검점의 최종성공실행아이디. integration.sync_run 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "sync_checkpoint",
+      "description": "수집 동기화 점검점의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "integration",
+      "default_value": "0"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sync_excn_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 동기화실행아이디. integration.sync_run 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "otsd_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(300)",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 외부아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 4,
+      "not_null": false,
+      "data_type": "character varying(64)",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 원천해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 상태코드. 허용 코드: CANDIDATE, UNCHANGED, FAILED.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "err_cd",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "character varying(80)",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 오류코드.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcstry_nmtm",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 처리시도횟수.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_item",
+      "description": "수집 항목 이력의 수정일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_run",
+      "description": "수집 실행의 아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_lnkg_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_run",
+      "description": "수집 실행의 원천연결아이디. integration.source_connection 참조.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "rqstr_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_run",
+      "description": "수집 실행의 요청자아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "sync_run",
+      "description": "수집 실행의 유형코드. 허용 코드: CHECK, SYNC.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "sync_run",
+      "description": "수집 실행의 상태코드. 허용 코드: QUEUED, RUNNING, RETRY_WAIT, SUCCEEDED, PARTIAL_FAILED, FAILED.",
+      "schema_name": "integration",
+      "default_value": "'QUEUED'::character varying"
+    },
+    {
+      "name": "idmpt_key_hash_vl",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "sync_run",
+      "description": "수집 실행의 멱등키해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "sync_run",
+      "description": "수집 실행의 요청해시값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "stng_ver_no",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "sync_run",
+      "description": "수집 실행의 설정버전번호.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "mpng_ver_nm",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "sync_run",
+      "description": "수집 실행의 매핑버전명.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "prcstry_nmtm",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "sync_run",
+      "description": "수집 실행의 처리시도횟수.",
+      "schema_name": "integration",
+      "default_value": "0"
+    },
+    {
+      "name": "joblse_tkn_id",
+      "ordinal": 11,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "sync_run",
+      "description": "수집 실행의 작업점유토큰아이디.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "joblse_expry_dt",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_run",
+      "description": "수집 실행의 작업점유만료일시.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "excn_psblty_dt",
+      "ordinal": 13,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_run",
+      "description": "수집 실행의 실행가능일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "bfr_chkpt_vl",
+      "ordinal": 14,
+      "not_null": false,
+      "data_type": "text",
+      "table_name": "sync_run",
+      "description": "수집 실행의 이전점검점값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "aftr_chkpt_vl",
+      "ordinal": 15,
+      "not_null": false,
+      "data_type": "text",
+      "table_name": "sync_run",
+      "description": "수집 실행의 이후점검점값.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "err_cd",
+      "ordinal": 16,
+      "not_null": false,
+      "data_type": "character varying(80)",
+      "table_name": "sync_run",
+      "description": "수집 실행의 오류코드.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 17,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_run",
+      "description": "수집 실행의 생성일시.",
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "bgng_dt",
+      "ordinal": 18,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_run",
+      "description": "수집 실행의 시작일시.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "end_dt",
+      "ordinal": 19,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_run",
+      "description": "수집 실행의 종료일시.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "sou_lnkg_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "use_yn",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "boolean",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": "false"
+    },
+    {
+      "name": "cycl_sec_cnt",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "next_excn_dt",
+      "ordinal": 4,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "last_dmnd_dt",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "last_excn_id",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "last_err_cd",
+      "ordinal": 7,
+      "not_null": false,
+      "data_type": "character varying(80)",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "stng_user_id",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "sync_schedule",
+      "description": "마지막 설정 관리자. 실행 권한이나 세션을 저장하지 않는다.",
+      "schema_name": "integration",
+      "default_value": null
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": "1"
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "sync_schedule",
+      "description": null,
+      "schema_name": "integration",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "user_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "character varying(80)",
+      "table_name": "idempotency_record",
+      "description": "업무 멱등 처리 기록의 사용자ID. 현재 계약에서 사용자 UUID의 문자열 표현이며 사용자별 멱등 범위에 사용한다.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "job_nm",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "idempotency_record",
+      "description": "업무 멱등 처리 기록의 작업명.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "key_hash_vl",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "idempotency_record",
+      "description": "업무 멱등 처리 기록의 키해시값.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "idempotency_record",
+      "description": "업무 멱등 처리 기록의 요청해시값.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "rslt_cn",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "idempotency_record",
+      "description": "업무 멱등 처리 기록의 결과내용.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "expry_dt",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "idempotency_record",
+      "description": "업무 멱등 처리 기록의 만료일시.",
+      "schema_name": "metadata",
+      "default_value": "(CURRENT_TIMESTAMP + '24:00:00'::interval)"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 아이디.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "rvw_dmnd_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 검토요청아이디. metadata.review_request 참조.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "rvw_cn_hash_vl",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 검토내용해시값. metadata.review_request 참조.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "dcsn_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(10)",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 결정코드. 허용 코드: APPROVE, REJECT.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "rvwr_id",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 검토자아이디.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "rsn",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "character varying(2000)",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 사유.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "dcsn_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "review_decision",
+      "description": "메타데이터 검토 결정의 결정일시.",
+      "schema_name": "metadata",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 아이디.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 데이터셋아이디. catalog.dataset_revision 참조.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 개정아이디. catalog.dataset_revision 참조.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "cn_hash_vl",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 내용해시값.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 상태코드. 허용 코드: SUBMITTED, APPROVED, REJECTED, WITHDRAWN.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "sbmsn_user_id",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 제출사용자아이디.",
+      "schema_name": "metadata",
+      "default_value": null
+    },
+    {
+      "name": "sbmsn_dt",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 제출일시.",
+      "schema_name": "metadata",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "review_request",
+      "description": "메타데이터 검토 요청의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "metadata",
+      "default_value": "0"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dfn_inpt_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 정의입력아이디. standard.definition_import 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 데이터셋아이디. catalog.dataset 참조; catalog.dataset_revision 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "rvsn_id",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 개정아이디. catalog.dataset_revision 참조; catalog.dataset_revision 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "rqstr_id",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 요청자아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "idmpt_key_hash_vl",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 멱등키해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 요청해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "chc_data_artcl_id_cn",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 선택자료항목아이디내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "rslt_cn",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 결과내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "definition_application",
+      "description": "정의서 선택 필드 적용 이력의 생성일시.",
+      "schema_name": "standard",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_field",
+      "description": "정의서 추출 필드의 아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dfn_inpt_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_field",
+      "description": "정의서 추출 필드의 정의입력아이디. standard.definition_import 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sort_seq",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "definition_field",
+      "description": "정의서 추출 필드의 정렬순서.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "data_artcl_dfn_cn",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "definition_field",
+      "description": "정의서 추출 필드의 자료항목정의내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sou_ptr_vl",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "definition_field",
+      "description": "정의서 추출 필드의 원천포인터값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 기관아이디. catalog.dataset 참조; identity.organization 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dtset_id",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 데이터셋아이디. catalog.dataset 참조; catalog.dataset 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "rqstr_id",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 요청자아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 원천해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sou_sz",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 원천크기. 입력 원본 바이트 수.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "prsr_ver_nm",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(50)",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 해석기버전명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 상태코드. 허용 코드: VALIDATED.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "data_artcl_cnt",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 자료항목수.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "wrng_cn",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 경고내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "definition_import",
+      "description": "정의서 입력 이력의 생성일시.",
+      "schema_name": "standard",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary",
+      "description": "표준사전의 아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "rng_cd",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "dictionary",
+      "description": "표준사전의 범위코드. 허용 코드: PUBLIC, ORGANIZATION.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "inst_id",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dictionary",
+      "description": "표준사전의 기관아이디. identity.organization 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "dictionary",
+      "description": "표준사전의 코드.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "nm",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "dictionary",
+      "description": "표준사전의 명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sou_rfrnc_addr",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "character varying(2000)",
+      "table_name": "dictionary",
+      "description": "표준사전의 원천참조주소.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "ver_nm",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "dictionary",
+      "description": "표준사전의 버전명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sou_hash_vl",
+      "ordinal": 8,
+      "not_null": false,
+      "data_type": "character varying(64)",
+      "table_name": "dictionary",
+      "description": "표준사전의 원천해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dictionary",
+      "description": "표준사전의 생성일시.",
+      "schema_name": "standard",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "stddict_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 표준사전아이디. standard.dictionary 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 유형코드. 허용 코드: WORD, TERM, DOMAIN.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(100)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 코드.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "nm",
+      "ordinal": 5,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dfn_cn",
+      "ordinal": 6,
+      "not_null": true,
+      "data_type": "character varying(4000)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 정의내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "data_type_cd",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(20)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 자료유형코드. 허용 코드: STRING, INTEGER, NUMBER, BOOLEAN, DATE, DATETIME, OBJECT, ARRAY.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "stts_cd",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 상태코드. 허용 코드: DRAFT, IN_REVIEW, APPROVED, REJECTED.",
+      "schema_name": "standard",
+      "default_value": "'DRAFT'::character varying"
+    },
+    {
+      "name": "lck_ver_no",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "bigint",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다.",
+      "schema_name": "standard",
+      "default_value": "0"
+    },
+    {
+      "name": "creatr_id",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 생성자ID.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sbmsn_user_id",
+      "ordinal": 11,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 제출사용자아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dcsn_user_id",
+      "ordinal": 12,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 결정사용자아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dcsn_rsn",
+      "ordinal": 13,
+      "not_null": false,
+      "data_type": "character varying(2000)",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 결정사유.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 14,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 생성일시.",
+      "schema_name": "standard",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfcn_dt",
+      "ordinal": 15,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 수정일시.",
+      "schema_name": "standard",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "mdfr_id",
+      "ordinal": 16,
+      "not_null": false,
+      "data_type": "uuid",
+      "table_name": "dictionary_entry",
+      "description": "표준사전 항목의 수정자ID.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "stddict_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 표준사전아이디. standard.dictionary 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "rqstr_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 요청자아이디.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "type_cd",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "character varying(30)",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 유형코드. 허용 코드: WORD, TERM, DOMAIN.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "srch_cn",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "character varying(200)",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 검색내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "stts_cnd_cd",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "character varying(20)",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 상태조건코드. 허용 코드: DRAFT, IN_REVIEW, APPROVED, REJECTED.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "key_hash_vl",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 키해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dmnd_hash_vl",
+      "ordinal": 8,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 요청해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "artcl_cnt",
+      "ordinal": 9,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 항목수.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "file_cn",
+      "ordinal": 10,
+      "not_null": true,
+      "data_type": "bytea",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 파일내용.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "cn_hash_vl",
+      "ordinal": 11,
+      "not_null": true,
+      "data_type": "character varying(64)",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 내용해시값.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "crt_dt",
+      "ordinal": 12,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 생성일시.",
+      "schema_name": "standard",
+      "default_value": "CURRENT_TIMESTAMP"
+    },
+    {
+      "name": "expry_dt",
+      "ordinal": 13,
+      "not_null": true,
+      "data_type": "timestamp with time zone",
+      "table_name": "dictionary_export",
+      "description": "표준사전 추출 파일의 만료일시.",
+      "schema_name": "standard",
+      "default_value": "(CURRENT_TIMESTAMP + '24:00:00'::interval)"
+    },
+    {
+      "name": "artcl_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 항목아이디. standard.dictionary_entry 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "max_len",
+      "ordinal": 2,
+      "not_null": false,
+      "data_type": "integer",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 최대길이.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "prcsn",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "integer",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 정밀도.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "dcpt_len",
+      "ordinal": 4,
+      "not_null": false,
+      "data_type": "integer",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 소수점길이.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "frm_nm",
+      "ordinal": 5,
+      "not_null": false,
+      "data_type": "character varying(200)",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 형식명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "unit_nm",
+      "ordinal": 6,
+      "not_null": false,
+      "data_type": "character varying(100)",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 단위명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "prm_vl_cn",
+      "ordinal": 7,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "domain_definition",
+      "description": "표준도메인 정의의 허용값내용.",
+      "schema_name": "standard",
+      "default_value": "'[]'::jsonb"
+    },
+    {
+      "name": "artcl_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "term_definition",
+      "description": "표준용어 정의의 항목아이디. standard.dictionary_entry 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "trm_eng_abbr_nm",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "character varying(200)",
+      "table_name": "term_definition",
+      "description": "표준용어 정의의 용어영문약어명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "stddmn_artcl_id",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "term_definition",
+      "description": "표준용어 정의의 표준도메인항목아이디. standard.dictionary_entry 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "trm_artcl_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "term_word",
+      "description": "표준용어 구성 단어의 용어항목아이디. standard.term_definition 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "word_artcl_id",
+      "ordinal": 2,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "term_word",
+      "description": "표준용어 구성 단어의 단어항목아이디. standard.dictionary_entry 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "sort_seq",
+      "ordinal": 3,
+      "not_null": true,
+      "data_type": "integer",
+      "table_name": "term_word",
+      "description": "표준용어 구성 단어의 정렬순서.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "artcl_id",
+      "ordinal": 1,
+      "not_null": true,
+      "data_type": "uuid",
+      "table_name": "word_definition",
+      "description": "표준단어 정의의 항목아이디. standard.dictionary_entry 참조.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "eng_nm",
+      "ordinal": 2,
+      "not_null": false,
+      "data_type": "character varying(200)",
+      "table_name": "word_definition",
+      "description": "표준단어 정의의 영문명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "abbr_nm",
+      "ordinal": 3,
+      "not_null": false,
+      "data_type": "character varying(100)",
+      "table_name": "word_definition",
+      "description": "표준단어 정의의 약어명.",
+      "schema_name": "standard",
+      "default_value": null
+    },
+    {
+      "name": "synm_cn",
+      "ordinal": 4,
+      "not_null": true,
+      "data_type": "jsonb",
+      "table_name": "word_definition",
+      "description": "표준단어 정의의 동의어내용.",
+      "schema_name": "standard",
+      "default_value": "'[]'::jsonb"
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "phase_cd",
+      "ordinal": 20,
+      "data_type": "character varying(40)",
+      "description": "처리단계코드",
+      "not_null": true,
+      "default_value": "'PREPARING'::character varying"
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "tot_artcl_cnt",
+      "ordinal": 21,
+      "data_type": "integer",
+      "description": "전체항목수",
+      "not_null": false,
+      "default_value": null
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "prgrs_dt",
+      "ordinal": 22,
+      "data_type": "timestamp with time zone",
+      "description": "진행일시",
+      "not_null": false,
+      "default_value": null
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "prcs_artcl_cnt",
+      "ordinal": 23,
+      "data_type": "integer",
+      "description": "처리항목수",
+      "not_null": true,
+      "default_value": "0"
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "save_artcl_cnt",
+      "ordinal": 24,
+      "data_type": "integer",
+      "description": "저장항목수",
+      "not_null": true,
+      "default_value": "0"
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "unchg_artcl_cnt",
+      "ordinal": 25,
+      "data_type": "integer",
+      "description": "미변경항목수",
+      "not_null": true,
+      "default_value": "0"
+    },
+    {
+      "schema_name": "integration",
+      "table_name": "sync_run",
+      "name": "fail_artcl_cnt",
+      "ordinal": 26,
+      "data_type": "integer",
+      "description": "실패항목수",
+      "not_null": true,
+      "default_value": "0"
+    }
+  ]
+}

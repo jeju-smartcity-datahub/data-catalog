@@ -1,0 +1,15 @@
+.columns { display: grid; grid-template-columns: 260px minmax(0, 1fr); align-items: start; gap: 24px; }
+.tree { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.tree button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; text-align: left; padding: 12px 16px; border: 1px solid var(--color-control-border); border-radius: 8px; background: white; color: var(--color-text); cursor: pointer; }
+.tree button[aria-pressed='true'] { border-color: var(--color-primary); background: var(--color-primary-soft); color: var(--color-primary); font-weight: 600; }
+.tree span { font-size: 12px; font-weight: 400; white-space: nowrap; }
+.compactForm { display: grid; gap: 20px; }
+.compactForm label { display: grid; gap: 8px; font-size: 14px; color: var(--color-muted); }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.source { font-size: 14px; color: var(--color-muted); margin-top: 10px; overflow-wrap: anywhere; }
+.kinds { display: flex; flex-wrap: wrap; gap: 8px; min-inline-size: 0; margin: 0 0 24px; padding: 0; border: 0; }
+.kind { border: 1px solid var(--color-control-border); color: var(--color-muted); background: white; padding: 12px 16px; border-radius: 8px; cursor: pointer; }
+.kind[aria-pressed='true'] { color: white; border-color: var(--color-primary); background: var(--color-primary); }
+.small { min-height: 36px; padding: 6px 12px; font-size: 13px; }
+.entryDescription { max-width: 460px; white-space: pre-wrap; }
+@media (max-width: 1100px) { .columns { grid-template-columns: 1fr; } .tree { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); } }

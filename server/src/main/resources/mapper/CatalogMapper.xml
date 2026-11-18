@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Catalog">
+  <sql id="publicCatalog">
+    FROM catalog.dataset d
+    JOIN catalog.publication p ON p.id = d.now_pstg_id AND p.dtset_id = d.id
+    JOIN catalog.dataset_revision r ON r.id = p.rvsn_id AND r.dtset_id = d.id
+    JOIN identity.organization o ON o.id = r.pvsn_inst_id
+    JOIN identity.organization owner_org ON owner_org.id = d.psn_inst_id
+    LEFT JOIN classification.category c ON c.id = r.main_clsf_id
+    WHERE d.mng_stts_cd = 'ACTIVE' AND p.stts_cd = 'PUBLISHED'
+      AND r.stts_cd = 'APPROVED' AND r.rls_rng_cd = 'PUBLIC' AND o.stts_cd = 'ACTIVE' AND owner_org.stts_cd = 'ACTIVE'
+  </sql>
+  <sql id="regions">
+    <if test="regionIds != null and !regionIds.isEmpty()">
+      AND EXISTS (SELECT 1 FROM catalog.revision_discovery rd WHERE rd.rvsn_id=r.id AND rd.type_cd='REGION' AND rd.clsf_id IN
+        <foreach collection="regionIds" item="id" open="(" separator="," close=")">#{id}</foreach>)
+    </if>
+  </sql>
+  <sql id="hubs">
+    <if test="hubIds != null and !hubIds.isEmpty()">
+      AND EXISTS (SELECT 1 FROM catalog.revision_discovery rd WHERE rd.rvsn_id=r.id AND rd.type_cd='HUB' AND rd.clsf_id IN
+        <foreach collection="hubIds" item="id" open="(" separator="," close=")">#{id}</foreach>)
+    </if>
+  </sql>
+  <sql id="topics">
+    <if test="topicIds != null and !topicIds.isEmpty()">
+      AND EXISTS (SELECT 1 FROM catalog.revision_topic rt WHERE rt.rvsn_id=r.id AND rt.tpc_id IN
+        <foreach collection="topicIds" item="id" open="(" separator="," close=")">#{id}</foreach>)
+    </if>
+  </sql>
+  <sql id="keyword">
+    <choose>
+      <when test="termPatterns != null and !termPatterns.isEmpty()">
+        <foreach collection="termPatterns" item="term">
+          AND (<include refid="naturalSearchText"/> ILIKE #{term} ESCAPE '!')
+        </foreach>
+      </when>
+      <otherwise><if test="q != null and q != ''">
+        AND (r.ttl ILIKE #{pattern} ESCAPE '!' OR r.expln ILIKE #{pattern} ESCAPE '!')
+      </if></otherwise>
+    </choose>
+  </sql>
+  <sql id="naturalSearchText">
+    concat_ws(' ',r.ttl,r.expln,
+      <include refid="naturalKeywordText"/>,
+      COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,providerOrganizationName}',o.inst_nm),
+      COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,primaryCategoryName}',c.nm),
+      (SELECT string_agg(label.value #&gt;&gt; '{}',' ') FROM jsonb_path_query(r.mtdt_cn,'$.discovery.regions[*].name') label(value)),
+      (SELECT string_agg(label.value #&gt;&gt; '{}',' ') FROM jsonb_path_query(r.mtdt_cn,'$.discovery.hubs[*].name') label(value)),
+      (SELECT string_agg(label.value #&gt;&gt; '{}',' ') FROM jsonb_path_query(r.mtdt_cn,'$.discovery.topics[*].name') label(value)))
+  </sql>
+  <sql id="naturalKeywordText">
+    (SELECT string_agg(keyword.value,' ') FROM jsonb_array_elements_text(
+      CASE WHEN jsonb_typeof(r.mtdt_cn #&gt; '{details,keywords}')='array'
+      THEN r.mtdt_cn #&gt; '{details,keywords}' ELSE '[]'::jsonb END) keyword(value))
+  </sql>
+  <sql id="organizations">
+    <if test="organizationIds != null and !organizationIds.isEmpty()">
+      AND r.pvsn_inst_id IN
+      <foreach collection="organizationIds" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </if>
+  </sql>
+  <sql id="categories">
+    <if test="categoryIds != null and !categoryIds.isEmpty()">
+      AND r.main_clsf_id IN
+      <foreach collection="categoryIds" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </if>
+  </sql>
+  <select id="countPublished" resultType="long">
+    SELECT count(*) <include refid="publicCatalog"/><include refid="keyword"/><include refid="organizations"/><include refid="categories"/>
+    <include refid="regions"/><include refid="hubs"/><include refid="topics"/>
+  </select>
+  <sql id="freshness">
+    (SELECT jsonb_build_object(
+      'firstPublishedAt', COALESCE((SELECT min(first_p.pstg_dt)
+        FROM catalog.publication first_p JOIN catalog.dataset_revision first_r ON first_r.id=first_p.rvsn_id
+        WHERE first_p.dtset_id=d.id AND first_r.dtset_id=d.id AND first_r.rls_rng_cd='PUBLIC'),p.pstg_dt),
+      'metadataCollectedAt', linked.collected_at,
+      'collectionStatus', COALESCE(linked.collection_status,'NOT_LINKED'))::text
+    FROM (VALUES (1)) AS singleton(n)
+    LEFT JOIN LATERAL (
+      SELECT COALESCE(item.mdfcn_dt, collected.end_dt, s.mdfcn_dt) AS collected_at,
+        CASE WHEN NOT conn.use_yn THEN 'DISABLED' ELSE COALESCE(latest.stts_cd,'NOT_COLLECTED') END AS collection_status
+      FROM integration.source_metadata s
+      JOIN integration.source_connection conn ON conn.id=s.sou_lnkg_id AND conn.inst_id=d.psn_inst_id
+      JOIN integration.sync_run collected ON collected.id=s.last_excn_id AND collected.sou_lnkg_id=conn.id
+      LEFT JOIN integration.sync_item item ON item.sync_excn_id=collected.id AND item.otsd_id=s.otsd_id
+        AND item.stts_cd IN ('CANDIDATE','UNCHANGED')
+      LEFT JOIN LATERAL (SELECT run.stts_cd FROM integration.sync_run run
+        WHERE run.sou_lnkg_id=conn.id AND run.type_cd='SYNC' ORDER BY run.crt_dt DESC,run.id DESC LIMIT 1) latest ON true
+      WHERE s.dtset_id=d.id AND EXISTS (SELECT 1 FROM integration.candidate_application applied
+        WHERE applied.sou_mtdt_id=s.id AND applied.dtset_id=d.id AND applied.dtset_rvsn_id=p.rvsn_id)
+      ORDER BY COALESCE(item.mdfcn_dt,collected.end_dt,s.mdfcn_dt) DESC,s.id LIMIT 1
+    ) linked ON true) AS freshness
+  </sql>
+  <select id="findPublished" resultType="kr.co.dtonic.datacatalog.catalog.persistence.CatalogRow">
+    SELECT d.id::text AS id, r.ttl AS title, r.expln AS description,
+      o.id::text AS organization_id, COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,providerOrganizationName}', o.inst_nm) AS organization_name,
+      c.id::text AS category_id, COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,primaryCategoryName}', c.nm) AS category_name,
+      p.pstg_dt AS published_at, p.acs_stts_cd AS access_state,r.mtdt_cn::text AS metadata,p.pstg_no AS publication_no,
+      <include refid="freshness"/>
+    <include refid="publicCatalog"/><include refid="keyword"/><include refid="organizations"/><include refid="categories"/>
+    <include refid="regions"/><include refid="hubs"/><include refid="topics"/>
+    ORDER BY
+    <choose>
+      <when test="sort == 'title,asc'">r.ttl ASC,</when>
+      <when test="sort == 'title,desc'">r.ttl DESC,</when>
+      <when test="sort == 'publishedAt,asc'">p.pstg_dt ASC,</when>
+      <when test="sort == 'relevance' and termPatterns != null and !termPatterns.isEmpty()">
+        (<foreach collection="termPatterns" item="term" separator=" + ">
+          CASE WHEN r.ttl ILIKE #{term} ESCAPE '!' THEN 4
+            WHEN <include refid="naturalKeywordText"/> ILIKE #{term} ESCAPE '!' THEN 3
+            WHEN r.expln ILIKE #{term} ESCAPE '!' THEN 2 ELSE 1 END
+        </foreach>) DESC,p.pstg_dt DESC,
+      </when>
+      <when test="sort == 'relevance' and q != ''">CASE WHEN lower(r.ttl)=lower(#{q}) THEN 0 WHEN r.ttl ILIKE #{pattern} ESCAPE '!' THEN 1 ELSE 2 END, p.pstg_dt DESC,</when>
+      <otherwise>p.pstg_dt DESC,</otherwise>
+    </choose>
+    d.id
+    LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="organizationFacets" resultType="kr.co.dtonic.datacatalog.catalog.persistence.FacetRow">
+    SELECT o.id::text AS id, o.inst_nm AS name, count(DISTINCT d.id) AS count
+    <include refid="publicCatalog"/><include refid="keyword"/><include refid="categories"/>
+    <include refid="regions"/><include refid="hubs"/><include refid="topics"/>
+    GROUP BY o.id,o.inst_nm ORDER BY o.inst_nm,o.id
+  </select>
+  <select id="categoryFacets" resultType="kr.co.dtonic.datacatalog.catalog.persistence.FacetRow">
+    SELECT c.id::text AS id, c.nm AS name, count(DISTINCT d.id) AS count
+    <include refid="publicCatalog"/><include refid="keyword"/><include refid="organizations"/>
+    <include refid="regions"/><include refid="hubs"/><include refid="topics"/>
+    AND c.id IS NOT NULL
+    GROUP BY c.id,c.nm ORDER BY c.nm,c.id
+  </select>
+  <select id="regionFacets" resultType="kr.co.dtonic.datacatalog.catalog.persistence.FacetRow">
+    SELECT rd.clsf_id::text AS id,min(rd.nm_snpst) AS name,count(DISTINCT s.id) AS count
+    FROM catalog.revision_discovery rd JOIN (
+      SELECT d.id,r.id AS revision_id <include refid="publicCatalog"/><include refid="keyword"/><include refid="organizations"/><include refid="categories"/>
+      <include refid="hubs"/><include refid="topics"/>
+    ) s ON s.revision_id=rd.rvsn_id WHERE rd.type_cd='REGION'
+    GROUP BY rd.clsf_id ORDER BY name,rd.clsf_id
+  </select>
+  <select id="hubFacets" resultType="kr.co.dtonic.datacatalog.catalog.persistence.FacetRow">
+    SELECT rd.clsf_id::text AS id,min(rd.nm_snpst) AS name,count(DISTINCT s.id) AS count
+    FROM catalog.revision_discovery rd JOIN (
+      SELECT d.id,r.id AS revision_id <include refid="publicCatalog"/><include refid="keyword"/><include refid="organizations"/><include refid="categories"/>
+      <include refid="regions"/><include refid="topics"/>
+    ) s ON s.revision_id=rd.rvsn_id WHERE rd.type_cd='HUB'
+    GROUP BY rd.clsf_id ORDER BY name,rd.clsf_id
+  </select>
+  <select id="topicFacets" resultType="kr.co.dtonic.datacatalog.catalog.persistence.FacetRow">
+    SELECT rt.tpc_id::text AS id,min(rt.nm_snpst) AS name,count(DISTINCT s.id) AS count
+    FROM catalog.revision_topic rt JOIN (
+      SELECT d.id,r.id AS revision_id <include refid="publicCatalog"/><include refid="keyword"/><include refid="organizations"/><include refid="categories"/>
+      <include refid="regions"/><include refid="hubs"/>
+    ) s ON s.revision_id=rt.rvsn_id
+    GROUP BY rt.tpc_id ORDER BY name,rt.tpc_id
+  </select>
+  <sql id="publicHistory">
+    FROM catalog.dataset d
+    JOIN catalog.publication current_p ON current_p.id=d.now_pstg_id AND current_p.dtset_id=d.id
+    JOIN catalog.dataset_revision current_r ON current_r.id=current_p.rvsn_id AND current_r.dtset_id=d.id
+    JOIN identity.organization current_o ON current_o.id=current_r.pvsn_inst_id
+    JOIN identity.organization owner_org ON owner_org.id=d.psn_inst_id
+    JOIN catalog.publication p ON p.dtset_id=d.id
+    JOIN catalog.dataset_revision r ON r.id=p.rvsn_id AND r.dtset_id=d.id
+    JOIN identity.organization o ON o.id=r.pvsn_inst_id
+    LEFT JOIN classification.category c ON c.id=r.main_clsf_id
+    WHERE d.id=#{id} AND d.mng_stts_cd='ACTIVE' AND owner_org.stts_cd='ACTIVE'
+      AND current_p.stts_cd='PUBLISHED' AND current_r.stts_cd='APPROVED' AND current_r.rls_rng_cd='PUBLIC' AND current_o.stts_cd='ACTIVE'
+      AND p.stts_cd='PUBLISHED' AND r.stts_cd='APPROVED' AND r.rls_rng_cd='PUBLIC' AND o.stts_cd='ACTIVE'
+  </sql>
+  <select id="detail" resultType="kr.co.dtonic.datacatalog.catalog.persistence.PublicationRow">
+    SELECT d.id::text AS id,r.ttl AS title,r.expln AS description,o.id::text AS organization_id,COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,providerOrganizationName}',o.inst_nm) AS organization_name,
+      c.id::text AS category_id,COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,primaryCategoryName}',c.nm) AS category_name,p.pstg_dt AS published_at,p.acs_stts_cd AS access_state,p.pstg_no AS publication_no,r.mtdt_cn::text AS metadata,
+      <include refid="freshness"/>
+    <include refid="publicHistory"/>
+    <choose><when test="publicationNo != null">AND p.pstg_no=#{publicationNo}</when><otherwise>AND p.id=d.now_pstg_id</otherwise></choose>
+  </select>
+  <select id="versions" resultType="kr.co.dtonic.datacatalog.catalog.api.DatasetVersion">
+    SELECT p.pstg_no AS publication_no,p.pstg_dt AS published_at,(p.id=d.now_pstg_id) AS current
+    <include refid="publicHistory"/>
+    ORDER BY p.pstg_no DESC
+  </select>
+</mapper>

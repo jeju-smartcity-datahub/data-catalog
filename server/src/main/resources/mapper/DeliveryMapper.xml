@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Delivery">
+  <sql id="publicSource">
+    FROM catalog.dataset d
+    JOIN catalog.publication p ON p.id = d.now_pstg_id AND p.dtset_id = d.id
+    JOIN catalog.dataset_revision r ON r.id = p.rvsn_id AND r.dtset_id = d.id
+    JOIN identity.organization o ON o.id = r.pvsn_inst_id
+    JOIN identity.organization owner_org ON owner_org.id = d.psn_inst_id
+    LEFT JOIN classification.category c ON c.id = r.main_clsf_id
+    WHERE d.mng_stts_cd = 'ACTIVE' AND p.stts_cd = 'PUBLISHED'
+      AND r.stts_cd = 'APPROVED' AND r.rls_rng_cd = 'PUBLIC' AND o.stts_cd = 'ACTIVE' AND owner_org.stts_cd = 'ACTIVE'
+  </sql>
+  <sql id="publicColumns">
+    d.id::text AS dataset_id, p.id::text AS publication_id, p.pstg_no AS publication_version,
+    r.ttl AS title, r.expln AS description, o.id::text AS organization_id,
+    COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,providerOrganizationName}', o.inst_nm) AS organization_name,
+    p.pstg_dt AS published_at, p.acs_stts_cd AS access_state, r.mdfcn_dt AS modified_at,
+    c.id::text AS category_id,
+    COALESCE(r.mtdt_cn #&gt;&gt; '{publicationLabels,primaryCategoryName}', c.nm) AS category_name,
+    jsonb_build_object(
+      'details', jsonb_build_object(
+        'department', r.mtdt_cn #&gt; '{details,department}',
+        'license', r.mtdt_cn #&gt; '{details,license}',
+        'updateFrequency', r.mtdt_cn #&gt; '{details,updateFrequency}',
+        'spatialCoverage', r.mtdt_cn #&gt; '{details,spatialCoverage}',
+        'temporalStart', r.mtdt_cn #&gt; '{details,temporalStart}',
+        'temporalEnd', r.mtdt_cn #&gt; '{details,temporalEnd}',
+        'keywords', r.mtdt_cn #&gt; '{details,keywords}'),
+      'regions', (SELECT COALESCE(jsonb_agg(jsonb_build_object('id', v-&gt;'id', 'name', v-&gt;'name')), '[]'::jsonb)
+        FROM jsonb_array_elements(CASE WHEN jsonb_typeof(r.mtdt_cn #&gt; '{discovery,regions}')='array'
+          THEN r.mtdt_cn #&gt; '{discovery,regions}' ELSE '[]'::jsonb END) v),
+      'topics', (SELECT COALESCE(jsonb_agg(jsonb_build_object('id', v-&gt;'id', 'name', v-&gt;'name')), '[]'::jsonb)
+        FROM jsonb_array_elements(CASE WHEN jsonb_typeof(r.mtdt_cn #&gt; '{discovery,topics}')='array'
+          THEN r.mtdt_cn #&gt; '{discovery,topics}' ELSE '[]'::jsonb END) v)
+    )::text AS public_metadata
+  </sql>
+  <select id="currentPublic" resultType="kr.co.dtonic.datacatalog.delivery.persistence.PublicDeliveryPublication">
+    SELECT <include refid="publicColumns"/> <include refid="publicSource"/> AND d.id = CAST(#{datasetId} AS uuid)
+  </select>
+  <select id="publicFeed" resultType="kr.co.dtonic.datacatalog.delivery.persistence.PublicDeliveryPublication">
+    SELECT <include refid="publicColumns"/> <include refid="publicSource"/>
+    ORDER BY d.id LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="publicCount" resultType="long">
+    SELECT count(*) <include refid="publicSource"/>
+  </select>
+</mapper>

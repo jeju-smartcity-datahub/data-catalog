@@ -1,0 +1,20 @@
+.settings { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.settings p { margin: 8px 0 0; color: var(--color-muted); font-size: 14px; }
+.form { display: grid; gap: 20px; }
+.form h3, .form p { margin: 0; }
+.form label { display: grid; gap: 8px; font-size: 14px; color: var(--color-muted); }
+.form .check { display: flex; gap: 10px; align-items: center; font-weight: 600; color: var(--color-text); }
+.check input, .selection input { width: 18px; height: 18px; accent-color: var(--color-primary); }
+.optional { border-top: 1px solid var(--color-line); padding-top: 16px; }
+.optional summary { cursor: pointer; font-size: 14px; }
+.optional > div { margin-top: 16px; display: grid; gap: 16px; }
+.toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.toolbar > span, .toolbar > output { margin-right: auto; color: var(--color-muted); font-size: 14px; }
+.table th:first-child, .table td:first-child { width: 48px; min-width: 48px; }
+.selection { display: flex; align-items: center; justify-content: center; }
+.preview { margin: 20px 0; max-height: 320px; overflow: auto; }
+.preview table { min-width: 500px; }
+.preview td, .preview th { white-space: normal; }
+.note { margin-top: 6px; color: var(--color-muted); font-size: 13px; }
+.summary { display: block; margin: 16px 0; font-weight: 600; }
+.result { margin: 8px 0 0; padding-left: 20px; line-height: 1.8; }

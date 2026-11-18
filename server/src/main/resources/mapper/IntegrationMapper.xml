@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Integration">
+  <sql id="connectionColumns">id::text, inst_id::text AS organization_id, nm AS name, adptr_cd AS adapter_code, lnkg_addr AS endpoint, secrt_rfrnc_nm AS secret_reference,
+    use_yn AS enabled, lmt_sec_cnt AS timeout_seconds, max_prcstry_nmtm AS max_attempts, max_qpage_cnt AS max_pages, lck_ver_no AS lock_version, mdfcn_dt AS updated_at</sql>
+  <sql id="runColumns">id::text, sou_lnkg_id::text AS connection_id, rqstr_id::text AS requested_by, type_cd AS kind, stts_cd AS status,
+    dmnd_hash_vl AS request_hash, stng_ver_no AS configuration_version, mpng_ver_nm AS mapping_version, prcstry_nmtm AS attempt, joblse_tkn_id::text AS lease_token,
+    bfr_chkpt_vl AS checkpoint_before, aftr_chkpt_vl AS checkpoint_after, err_cd AS error_code, crt_dt AS created_at, bgng_dt AS started_at, end_dt AS finished_at,
+    phase_cd AS phase, tot_artcl_cnt AS total_count, prgrs_dt AS progress_at,
+    CASE WHEN stts_cd='RETRY_WAIT' THEN excn_psblty_dt ELSE NULL END AS next_attempt_at,
+    prcs_artcl_cnt AS processed_count,save_artcl_cnt AS saved_count,unchg_artcl_cnt AS unchanged_count,fail_artcl_cnt AS failed_count</sql>
+  <select id="connection" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Connection">
+    SELECT <include refid="connectionColumns"/> FROM integration.source_connection WHERE id=#{id}::uuid
+  </select>
+  <select id="lockConnection" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Connection">
+    SELECT <include refid="connectionColumns"/> FROM integration.source_connection WHERE id=#{id}::uuid FOR UPDATE
+  </select>
+  <select id="connections" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Connection">
+    SELECT <include refid="connectionColumns"/> FROM integration.source_connection WHERE inst_id=#{org}::uuid ORDER BY crt_dt DESC,id LIMIT 200
+  </select>
+  <insert id="createConnection">
+    INSERT INTO integration.source_connection(id,inst_id,nm,adptr_cd,lnkg_addr,secrt_rfrnc_nm,use_yn,lmt_sec_cnt,max_prcstry_nmtm,max_qpage_cnt)
+    VALUES (#{id}::uuid,#{org}::uuid,#{name},#{adapter},#{endpoint},#{secret},#{enabled},#{timeout},#{attempts},#{pages})
+  </insert>
+  <update id="updateConnection">
+    UPDATE integration.source_connection SET nm=#{name},adptr_cd=#{adapter},lnkg_addr=#{endpoint},secrt_rfrnc_nm=#{secret},
+      use_yn=#{enabled},lmt_sec_cnt=#{timeout},max_prcstry_nmtm=#{attempts},max_qpage_cnt=#{pages},lck_ver_no=lck_ver_no+1,mdfcn_dt=clock_timestamp()
+    WHERE id=#{id}::uuid AND lck_ver_no=#{version}
+  </update>
+  <select id="activeRuns" resultType="int">
+    SELECT count(*) FROM integration.sync_run WHERE sou_lnkg_id=#{id}::uuid AND stts_cd IN ('QUEUED','RUNNING','RETRY_WAIT')
+  </select>
+  <select id="executionAllowed" resultType="boolean">
+    SELECT EXISTS(SELECT 1 FROM integration.source_connection c JOIN identity.organization o ON o.id=c.inst_id
+      WHERE c.id=#{id}::uuid AND c.lck_ver_no=#{version} AND c.use_yn AND o.stts_cd='ACTIVE')
+  </select>
+  <select id="organizationActive" resultType="boolean">
+    SELECT EXISTS(SELECT 1 FROM identity.organization WHERE id=#{id}::uuid AND stts_cd='ACTIVE')
+  </select>
+  <insert id="audit">
+    INSERT INTO integration.connection_event(id,lnkg_id,prcs_user_id,prcs_cd,dmnd_id,stng_ver_no)
+    VALUES (#{event}::uuid,#{id}::uuid,#{actor}::uuid,#{action},#{requestId},#{version})
+  </insert>
+  <select id="events" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Event">
+    SELECT id::text,prcs_user_id::text AS actor_id,prcs_cd AS action,dmnd_id AS request_id,stng_ver_no AS configuration_version,ocrn_dt AS occurred_at FROM integration.connection_event
+    WHERE lnkg_id=#{id}::uuid ORDER BY ocrn_dt DESC,id LIMIT 200
+  </select>
+  <insert id="createRun">
+    INSERT INTO integration.sync_run(id,sou_lnkg_id,rqstr_id,type_cd,idmpt_key_hash_vl,dmnd_hash_vl,stng_ver_no,mpng_ver_nm,bfr_chkpt_vl)
+    VALUES (#{id}::uuid,#{connection}::uuid,#{actor}::uuid,#{kind},#{digest},#{hash},#{version},#{mapping},#{checkpoint}) ON CONFLICT DO NOTHING
+  </insert>
+  <select id="run" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Run">
+    SELECT <include refid="runColumns"/> FROM integration.sync_run WHERE id=#{id}::uuid
+  </select>
+  <select id="idempotentRun" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Run">
+    SELECT <include refid="runColumns"/> FROM integration.sync_run WHERE sou_lnkg_id=#{connection}::uuid
+    AND rqstr_id=#{actor}::uuid AND type_cd=#{kind} AND idmpt_key_hash_vl=#{digest}
+  </select>
+  <select id="runs" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Run">
+    SELECT <include refid="runColumns"/> FROM integration.sync_run WHERE sou_lnkg_id=#{id}::uuid ORDER BY crt_dt DESC,id LIMIT 100
+  </select>
+  <!-- Reclaim an expired lease with a new fencing token. Old workers cannot commit. -->
+  <select id="claim" resultType="kr.co.dtonic.datacatalog.integration.persistence.IntegrationRows$Run" affectData="true" flushCache="true">
+    WITH cand_cn AS (
+      SELECT id FROM integration.sync_run WHERE
+      ((stts_cd IN ('QUEUED','RETRY_WAIT') AND excn_psblty_dt &lt;= clock_timestamp()) OR (stts_cd='RUNNING' AND joblse_expry_dt &lt; clock_timestamp()))
+      ORDER BY excn_psblty_dt,crt_dt,id LIMIT 1 FOR UPDATE SKIP LOCKED
+    ), claimed AS (
+      UPDATE integration.sync_run r SET stts_cd='RUNNING',joblse_tkn_id=#{token}::uuid,
+      phase_cd=CASE WHEN r.type_cd='CHECK' THEN 'CHECKING_CONNECTION' ELSE 'FETCHING_LIST' END,prgrs_dt=clock_timestamp(),
+      joblse_expry_dt=clock_timestamp()+interval '60 seconds',prcstry_nmtm=prcstry_nmtm+1,bgng_dt=COALESCE(bgng_dt,clock_timestamp())
+      FROM cand_cn c WHERE r.id=c.id RETURNING r.*
+    ) SELECT <include refid="runColumns"/> FROM claimed
+  </select>
+  <update id="fence">
+    UPDATE integration.sync_run SET joblse_expry_dt=clock_timestamp()+interval '60 seconds'
+    WHERE id=#{id}::uuid AND stts_cd='RUNNING' AND joblse_tkn_id=#{token}::uuid AND joblse_expry_dt &gt; clock_timestamp()
+  </update>
+  <update id="finish">
+    UPDATE integration.sync_run SET stts_cd=#{status},err_cd=#{error},end_dt=clock_timestamp(),joblse_tkn_id=NULL,joblse_expry_dt=NULL,
+      phase_cd=CASE WHEN #{status} IN ('SUCCEEDED','PARTIAL_FAILED') THEN 'COMPLETED' ELSE 'FAILED' END,prgrs_dt=clock_timestamp()
+    WHERE id=#{id}::uuid AND stts_cd='RUNNING' AND joblse_tkn_id=#{token}::uuid AND joblse_expry_dt &gt; clock_timestamp()
+  </update>
+  <update id="retry">
+    UPDATE integration.sync_run SET stts_cd='RETRY_WAIT',err_cd=#{error},excn_psblty_dt=clock_timestamp()+(#{delay} * interval '1 second'),joblse_tkn_id=NULL,joblse_expry_dt=NULL,
+      phase_cd='RETRY_WAIT',prgrs_dt=clock_timestamp()
+    WHERE id=#{id}::uuid AND stts_cd='RUNNING' AND joblse_tkn_id=#{token}::uuid AND joblse_expry_dt &gt; clock_timestamp()
+  </update>
+  <select id="checkpoint" resultType="string">
+    SELECT cursr_vl AS cursor FROM integration.sync_checkpoint WHERE sou_lnkg_id=#{id}::uuid
+  </select>
+  <insert id="saveCheckpoint">
+    INSERT INTO integration.sync_checkpoint(sou_lnkg_id,cursr_vl,last_scs_excn_id)
+    VALUES (#{connection}::uuid,#{cursor},#{id}::uuid) ON CONFLICT(sou_lnkg_id)
+    DO UPDATE SET cursr_vl=EXCLUDED.cursr_vl,last_scs_excn_id=EXCLUDED.last_scs_excn_id,lck_ver_no=integration.sync_checkpoint.lck_ver_no+1
+  </insert>
+  <update id="progress">
+    UPDATE integration.sync_run SET aftr_chkpt_vl=#{cursor} WHERE id=#{id}::uuid AND stts_cd='RUNNING' AND joblse_tkn_id=#{token}::uuid AND joblse_expry_dt &gt; clock_timestamp()
+  </update>
+  <update id="reportProgress">
+    UPDATE integration.sync_run SET phase_cd=#{phase},tot_artcl_cnt=COALESCE(#{total,jdbcType=INTEGER},tot_artcl_cnt),prgrs_dt=clock_timestamp()
+    WHERE id=#{id}::uuid AND stts_cd='RUNNING' AND joblse_tkn_id=#{token}::uuid AND joblse_expry_dt &gt; clock_timestamp()
+  </update>
+  <update id="countProgress">
+    UPDATE integration.sync_run r SET prcs_artcl_cnt=s.processed,save_artcl_cnt=s.saved,
+      unchg_artcl_cnt=s.unchanged,fail_artcl_cnt=s.failed,prgrs_dt=clock_timestamp()
+    FROM (SELECT count(*)::integer AS processed,
+      count(*) FILTER (WHERE stts_cd='CANDIDATE')::integer AS saved,
+      count(*) FILTER (WHERE stts_cd='UNCHANGED')::integer AS unchanged,
+      count(*) FILTER (WHERE stts_cd='FAILED')::integer AS failed
+      FROM integration.sync_item WHERE sync_excn_id=#{id}::uuid) s
+    WHERE r.id=#{id}::uuid AND r.stts_cd='RUNNING' AND r.joblse_tkn_id=#{token}::uuid AND r.joblse_expry_dt &gt; clock_timestamp()
+  </update>
+  <select id="sourceHash" resultType="string">
+    SELECT sou_hash_vl AS source_hash FROM integration.source_metadata WHERE sou_lnkg_id=#{connection}::uuid AND otsd_id=#{external}
+  </select>
+  <insert id="candidate">
+    INSERT INTO integration.source_metadata(id,sou_lnkg_id,otsd_id,sou_hash_vl,sou_rvsn_nm,cand_cn,mpng_ver_nm,last_excn_id)
+    VALUES (#{candidateId}::uuid,#{connection}::uuid,#{external},#{hash},#{revision},#{candidate}::jsonb,#{mapping},#{id}::uuid)
+    ON CONFLICT(sou_lnkg_id,otsd_id) DO UPDATE SET sou_hash_vl=EXCLUDED.sou_hash_vl,sou_rvsn_nm=EXCLUDED.sou_rvsn_nm,
+      cand_cn=EXCLUDED.cand_cn,mpng_ver_nm=EXCLUDED.mpng_ver_nm,last_excn_id=EXCLUDED.last_excn_id,
+      rvsn_no=integration.source_metadata.rvsn_no+1,mdfcn_dt=clock_timestamp()
+    WHERE integration.source_metadata.sou_hash_vl &lt;&gt; EXCLUDED.sou_hash_vl
+  </insert>
+  <update id="touchUnchangedSource">
+    UPDATE integration.source_metadata SET sou_rvsn_nm=#{revision},last_excn_id=#{id}::uuid,
+      cand_cn=CASE WHEN #{modifiedAt,jdbcType=VARCHAR}::text IS NULL THEN cand_cn #- '{details,sourceModifiedAt}'
+      ELSE jsonb_set(cand_cn,'{details,sourceModifiedAt}',to_jsonb(#{modifiedAt,jdbcType=VARCHAR}::text),true) END
+    WHERE sou_lnkg_id=#{connection}::uuid AND otsd_id=#{external} AND sou_hash_vl=#{hash}
+  </update>
+  <insert id="item">
+    INSERT INTO integration.sync_item(id,sync_excn_id,otsd_id,sou_hash_vl,stts_cd,err_cd,prcstry_nmtm)
+    VALUES (#{itemId}::uuid,#{id}::uuid,#{external},#{hash},#{status},#{error},#{attempt})
+    ON CONFLICT(sync_excn_id,otsd_id) DO UPDATE SET sou_hash_vl=EXCLUDED.sou_hash_vl,
+      stts_cd=CASE WHEN sync_item.stts_cd='CANDIDATE' AND EXCLUDED.stts_cd='UNCHANGED'
+        AND sync_item.sou_hash_vl=EXCLUDED.sou_hash_vl THEN 'CANDIDATE' ELSE EXCLUDED.stts_cd END,err_cd=EXCLUDED.err_cd,
+      prcstry_nmtm=EXCLUDED.prcstry_nmtm,mdfcn_dt=clock_timestamp()
+  </insert>
+  <select id="items" resultType="kr.co.dtonic.datacatalog.integration.api.IntegrationModels$ItemView">
+    SELECT otsd_id AS external_id,stts_cd AS status,sou_hash_vl AS source_hash,err_cd AS error_code,prcstry_nmtm AS attempt,mdfcn_dt AS updated_at FROM integration.sync_item
+    WHERE sync_excn_id=#{id}::uuid ORDER BY otsd_id LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="itemCount" resultType="long">SELECT count(*) FROM integration.sync_item WHERE sync_excn_id=#{id}::uuid</select>
+  <select id="hasFailedItems" resultType="boolean">
+    SELECT EXISTS(SELECT 1 FROM integration.sync_item WHERE sync_excn_id=#{id}::uuid AND stts_cd='FAILED')
+  </select>
+</mapper>

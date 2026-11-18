@@ -1,0 +1,7 @@
+springdoc:
+  api-docs:
+    enabled: true
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 3

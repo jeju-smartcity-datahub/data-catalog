@@ -1,0 +1,17 @@
+# Activate with dev/test, or with prod/production and CATALOG_LOCAL_AUTH_ENABLED=true.
+# This file never creates accounts.
+server:
+  servlet:
+    session:
+      timeout: 30m
+      tracking-modes: cookie
+      cookie:
+        http-only: true
+        same-site: lax
+        secure: ${SESSION_COOKIE_SECURE:true}
+        path: /
+catalog:
+  local-auth:
+    username-attempts: 5
+    address-attempts: 30
+    window-seconds: 60

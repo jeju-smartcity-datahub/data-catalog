@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Analytics">
+  <insert id="search">INSERT INTO analytics.search_event(id,dmnd_id,srch_cn_exst_yn,nrmlz_srch_cnd_cn,rslt_cnt,req_ms_cnt)
+    VALUES(CAST(#{id} AS uuid),#{requestId},#{hasQuery},CAST(#{filters} AS jsonb),#{count},#{duration})</insert>
+  <sql id="searchWhere">
+    WHERE ocrn_dt &gt;= #{from} AND ocrn_dt &lt; #{to}
+    <if test="hasQuery != null">AND srch_cn_exst_yn=#{hasQuery}</if>
+    <if test="zeroResults != null"><choose><when test="zeroResults">AND rslt_cnt=0</when><otherwise>AND rslt_cnt&gt;0</otherwise></choose></if>
+    <if test="cutoff != null">AND ocrn_dt &lt;= #{cutoff}</if>
+  </sql>
+  <sql id="analysisWhere">
+    WHERE inst_id=CAST(#{organization} AS uuid)
+    <if test="from != null">AND bgng_dt &gt;= #{from} AND bgng_dt &lt; #{to}</if>
+    <if test="analysisKind != null">AND type_cd=#{analysisKind}</if>
+    <if test="status != null">AND stts_cd=#{status}</if>
+    <if test="query != null">AND (position(#{query} in lower(id::text))&gt;0 OR position(#{query} in lower(engn_ver_nm))&gt;0 OR position(#{query} in lower(sou_hash_vl))&gt;0)</if>
+    <if test="cutoff != null">AND bgng_dt &lt;= #{cutoff} AND end_dt &lt;= #{cutoff}</if>
+  </sql>
+  <select id="searches" resultType="kr.co.dtonic.datacatalog.analytics.AnalyticsMapper$SearchRow">
+    SELECT id::text,dmnd_id AS request_id,ocrn_dt AS occurred_at,srch_cn_exst_yn AS has_query,nrmlz_srch_cnd_cn::text AS normalized_filters,rslt_cnt AS result_count,req_ms_cnt AS duration_ms,srch_rng_cd AS search_scope
+    FROM analytics.search_event <include refid="searchWhere"/>
+    ORDER BY ocrn_dt DESC,id LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="statistics" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$SearchStatistics">
+    SELECT count(*) AS search_count,count(*) FILTER(WHERE rslt_cnt=0) AS zero_result_count,
+    coalesce(sum(rslt_cnt),0)::bigint AS result_count_sum,coalesce(sum(req_ms_cnt),0)::bigint AS duration_ms_sum
+    FROM analytics.search_event <include refid="searchWhere"/>
+  </select>
+  <select id="analyses" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$AnalysisRun">
+    SELECT id::text,inst_id::text AS organization_id,dtset_rvsn_id::text AS dataset_revision_id,type_cd AS kind,engn_ver_nm AS engine_version,rqstr_id::text AS requested_by,bgng_dt AS started_at,end_dt AS finished_at,stts_cd AS status,data_artcl_cnt AS field_count,sou_hash_vl AS source_hash,err_cd AS error_code
+    FROM analytics.analysis_run <include refid="analysisWhere"/> ORDER BY bgng_dt DESC,id LIMIT #{size} OFFSET #{offset}
+  </select>
+  <select id="analysisStatistics" resultType="kr.co.dtonic.datacatalog.analytics.AnalyticsReportContracts$AnalysisStatistics">
+    SELECT count(*) AS run_count,count(*) FILTER(WHERE stts_cd='SUCCEEDED') AS succeeded_count,count(*) FILTER(WHERE stts_cd='FAILED') AS failed_count,
+      coalesce(sum(data_artcl_cnt),0)::bigint AS field_count_sum,coalesce(sum(jsonb_array_length(bss_cn)),0)::bigint AS evidence_count
+    FROM analytics.analysis_run <include refid="analysisWhere"/>
+  </select>
+  <select id="analysis" resultType="kr.co.dtonic.datacatalog.standard.api.GovernanceModels$AnalysisRun">
+    SELECT id::text,inst_id::text AS organization_id,dtset_rvsn_id::text AS dataset_revision_id,type_cd AS kind,engn_ver_nm AS engine_version,rqstr_id::text AS requested_by,bgng_dt AS started_at,end_dt AS finished_at,stts_cd AS status,data_artcl_cnt AS field_count,sou_hash_vl AS source_hash,err_cd AS error_code
+    FROM analytics.analysis_run WHERE id=CAST(#{value} AS uuid)
+  </select>
+  <select id="evidence" resultType="string">SELECT bss_cn::text AS evidence FROM analytics.analysis_run WHERE id=CAST(#{value} AS uuid)</select>
+</mapper>

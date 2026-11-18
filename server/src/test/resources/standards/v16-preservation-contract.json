@@ -1,0 +1,3404 @@
+{
+  "mappingSha256": "e73d9196d50a744ce030ee8879ac087c51fe3dc873c7dd3e365fd019e30642fd",
+  "migrations": [
+    {
+      "version": "1",
+      "checksum": 449635660
+    },
+    {
+      "version": "2",
+      "checksum": -1787852614
+    },
+    {
+      "version": "3",
+      "checksum": -204219603
+    },
+    {
+      "version": "4",
+      "checksum": -744605932
+    },
+    {
+      "version": "5",
+      "checksum": -1496911681
+    },
+    {
+      "version": "6",
+      "checksum": -1855205457
+    },
+    {
+      "version": "7",
+      "checksum": 943757619
+    },
+    {
+      "version": "9",
+      "checksum": -133594266
+    },
+    {
+      "version": "10",
+      "checksum": -730486013
+    },
+    {
+      "version": "11",
+      "checksum": -526699162
+    },
+    {
+      "version": "12",
+      "checksum": -892817102
+    },
+    {
+      "version": "13",
+      "checksum": -1678506741
+    },
+    {
+      "version": "14",
+      "checksum": 71479172
+    },
+    {
+      "version": "15",
+      "checksum": 1495490592
+    }
+  ],
+  "tables": [
+    {
+      "schema": "analytics",
+      "name": "analysis_run",
+      "comment": "메타데이터 분석 이력. 정의서 추출·입력·필드 매핑 실행과 불변 근거를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 아이디."
+        },
+        {
+          "oldName": "organization_id",
+          "name": "inst_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "dataset_revision_id",
+          "name": "dtset_rvsn_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 데이터셋개정아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(30)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 유형코드. 허용 코드: DEFINITION_EXPORT, FIELD_MAPPING, DEFINITION_IMPORT."
+        },
+        {
+          "oldName": "engine_version",
+          "name": "engn_ver_nm",
+          "type": "character varying(50)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 엔진버전명."
+        },
+        {
+          "oldName": "requested_by",
+          "name": "rqstr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 요청자아이디."
+        },
+        {
+          "oldName": "started_at",
+          "name": "bgng_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "메타데이터 분석 이력의 시작일시."
+        },
+        {
+          "oldName": "finished_at",
+          "name": "end_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "메타데이터 분석 이력의 종료일시."
+        },
+        {
+          "oldName": "status",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 상태코드. 허용 코드: SUCCEEDED, FAILED."
+        },
+        {
+          "oldName": "field_count",
+          "name": "data_artcl_cnt",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 자료항목수."
+        },
+        {
+          "oldName": "source_hash",
+          "name": "sou_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 원천해시값."
+        },
+        {
+          "oldName": "definition_import_id",
+          "name": "dfn_inpt_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 정의입력아이디. standard.definition_import 참조."
+        },
+        {
+          "oldName": "evidence",
+          "name": "bss_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "comment": "메타데이터 분석 이력의 근거내용."
+        },
+        {
+          "oldName": "error_code",
+          "name": "err_cd",
+          "type": "character varying(80)",
+          "nullable": true,
+          "default": null,
+          "comment": "메타데이터 분석 이력의 오류코드."
+        }
+      ],
+      "constraintNames": [
+        "analysis_run_evidence_check",
+        "analysis_run_failure_contract",
+        "analysis_run_field_count_check",
+        "analysis_run_kind_check",
+        "analysis_run_status_check",
+        "analysis_run_dataset_revision_id_fkey",
+        "analysis_run_definition_import_id_fkey",
+        "analysis_run_organization_id_fkey",
+        "analysis_run_pkey"
+      ],
+      "indexNames": [
+        "analysis_one_per_definition_import",
+        "analysis_run_org_idx",
+        "analysis_run_pkey"
+      ],
+      "triggerNames": [
+        "analysis_run_immutable",
+        "analysis_scope_guard"
+      ]
+    },
+    {
+      "schema": "analytics",
+      "name": "report",
+      "comment": "검색분석 보고서. 권한 범위와 조회 조건에 따라 생성한 보고서 파일과 만료 정보를 보관한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 아이디."
+        },
+        {
+          "oldName": "requested_by",
+          "name": "rqstr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 요청자아이디."
+        },
+        {
+          "oldName": "organization_id",
+          "name": "inst_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "검색분석 보고서의 기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(10)",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 유형코드. 허용 코드: SEARCH, ANALYSIS."
+        },
+        {
+          "oldName": "format",
+          "name": "file_fmt_cd",
+          "type": "character varying(4)",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 파일형식코드. 허용 코드: JSON, CSV."
+        },
+        {
+          "oldName": "filters",
+          "name": "inq_cnd_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 조회조건내용."
+        },
+        {
+          "oldName": "cutoff",
+          "name": "crtr_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 기준일시."
+        },
+        {
+          "oldName": "row_count",
+          "name": "row_cnt",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 행수."
+        },
+        {
+          "oldName": "key_digest",
+          "name": "key_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 키해시값."
+        },
+        {
+          "oldName": "request_hash",
+          "name": "dmnd_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 요청해시값."
+        },
+        {
+          "oldName": "content_hash",
+          "name": "cn_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 내용해시값."
+        },
+        {
+          "oldName": "file_content",
+          "name": "file_cn",
+          "type": "bytea",
+          "nullable": false,
+          "default": null,
+          "comment": "검색분석 보고서의 파일내용."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "검색분석 보고서의 생성일시."
+        },
+        {
+          "oldName": "expires_at",
+          "name": "expry_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "(CURRENT_TIMESTAMP + '24:00:00'::interval)",
+          "comment": "검색분석 보고서의 만료일시."
+        }
+      ],
+      "constraintNames": [
+        "report_check",
+        "report_check1",
+        "report_check2",
+        "report_content_hash_check",
+        "report_file_content_check",
+        "report_filters_check",
+        "report_filters_check1",
+        "report_format_check",
+        "report_key_digest_check",
+        "report_kind_check",
+        "report_request_hash_check",
+        "report_row_count_check",
+        "report_organization_id_fkey",
+        "report_pkey",
+        "report_requested_by_key_digest_key"
+      ],
+      "indexNames": [
+        "analytics_report_expiration_idx",
+        "report_pkey",
+        "report_requested_by_key_digest_key"
+      ],
+      "triggerNames": [
+        "analytics_report_immutable"
+      ]
+    },
+    {
+      "schema": "analytics",
+      "name": "search_event",
+      "comment": "공개 검색 이력. 검색어 원문과 IP를 제외한 공개 목록 조회 조건·결과수·시간을 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 검색 이력의 아이디."
+        },
+        {
+          "oldName": "request_id",
+          "name": "dmnd_id",
+          "type": "character varying(100)",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 검색 이력의 요청아이디."
+        },
+        {
+          "oldName": "occurred_at",
+          "name": "ocrn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "공개 검색 이력의 발생일시."
+        },
+        {
+          "oldName": "has_query",
+          "name": "srch_cn_exst_yn",
+          "type": "boolean",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 검색 이력의 검색내용존재여부."
+        },
+        {
+          "oldName": "normalized_filters",
+          "name": "nrmlz_srch_cnd_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 검색 이력의 정규화검색조건내용."
+        },
+        {
+          "oldName": "result_count",
+          "name": "rslt_cnt",
+          "type": "bigint",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 검색 이력의 결과수."
+        },
+        {
+          "oldName": "duration_ms",
+          "name": "req_ms_cnt",
+          "type": "bigint",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 검색 이력의 소요밀리초수. 단위는 밀리초."
+        },
+        {
+          "oldName": "search_scope",
+          "name": "srch_rng_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'PUBLIC'::character varying",
+          "comment": "공개 검색 이력의 검색범위코드. 허용 코드: PUBLIC."
+        }
+      ],
+      "constraintNames": [
+        "search_event_duration_ms_check",
+        "search_event_normalized_filters_check",
+        "search_event_result_count_check",
+        "search_event_search_scope_check",
+        "search_event_pkey"
+      ],
+      "indexNames": [
+        "search_event_pkey",
+        "search_event_request_idx",
+        "search_event_time_idx"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "apidocs",
+      "name": "api_document_version",
+      "comment": "소비자 API 문서 버전. 검증된 제공 계약 버전에서 생성한 OpenAPI 명세와 해시를 보관한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 아이디."
+        },
+        {
+          "oldName": "service_version_id",
+          "name": "srvc_ver_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 서비스버전아이디. delivery.data_service_version 참조."
+        },
+        {
+          "oldName": "document_revision",
+          "name": "doc_rvsn_no",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 문서개정번호."
+        },
+        {
+          "oldName": "document_kind",
+          "name": "doc_type_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 문서유형코드. 허용 코드: OPENAPI."
+        },
+        {
+          "oldName": "openapi_snapshot",
+          "name": "oapi_snpst_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 오픈API스냅샷내용. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다."
+        },
+        {
+          "oldName": "spec_hash",
+          "name": "spcfct_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 규격해시값."
+        },
+        {
+          "oldName": "schema_hash",
+          "name": "schm_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 스키마해시값."
+        },
+        {
+          "oldName": "generator_version",
+          "name": "crt_ver_nm",
+          "type": "character varying(40)",
+          "nullable": false,
+          "default": null,
+          "comment": "소비자 API 문서 버전의 생성버전명."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "소비자 API 문서 버전의 생성일시."
+        }
+      ],
+      "constraintNames": [
+        "api_document_version_document_kind_check",
+        "api_document_version_document_revision_check",
+        "api_document_version_openapi_snapshot_check",
+        "api_document_version_schema_hash_check",
+        "api_document_version_spec_hash_check",
+        "api_document_version_service_version_id_fkey",
+        "api_document_version_pkey",
+        "api_document_version_service_version_id_document_revision_key"
+      ],
+      "indexNames": [
+        "api_document_version_pkey",
+        "api_document_version_service_version_id_document_revision_key"
+      ],
+      "triggerNames": [
+        "document_matching_schema",
+        "document_snapshot_immutable"
+      ]
+    },
+    {
+      "schema": "audit",
+      "name": "audit_event",
+      "comment": "업무 감사 이력. 인증된 주체·기관·대상별 업무 변경을 추적한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 아이디."
+        },
+        {
+          "oldName": "occurred_at",
+          "name": "ocrn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "업무 감사 이력의 발생일시."
+        },
+        {
+          "oldName": "actor_user_id",
+          "name": "prcs_user_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 처리사용자아이디."
+        },
+        {
+          "oldName": "organization_id",
+          "name": "inst_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "업무 감사 이력의 기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "업무 감사 이력의 데이터셋아이디. catalog.dataset 참조."
+        },
+        {
+          "oldName": "action",
+          "name": "prcs_cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 처리코드."
+        },
+        {
+          "oldName": "target_type",
+          "name": "trgt_type_cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 대상유형코드."
+        },
+        {
+          "oldName": "target_id",
+          "name": "trgt_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 대상아이디."
+        },
+        {
+          "oldName": "request_id",
+          "name": "dmnd_id",
+          "type": "character varying(100)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 요청아이디."
+        },
+        {
+          "oldName": "result",
+          "name": "rslt_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'SUCCESS'::character varying",
+          "comment": "업무 감사 이력의 결과코드."
+        },
+        {
+          "oldName": "change_summary",
+          "name": "chg_smry_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 감사 이력의 변경요약내용."
+        }
+      ],
+      "constraintNames": [
+        "audit_event_change_summary_check",
+        "audit_event_dataset_id_fkey",
+        "audit_event_organization_id_fkey",
+        "audit_event_pkey"
+      ],
+      "indexNames": [
+        "audit_dataset_time_idx",
+        "audit_event_pkey",
+        "audit_org_time_idx"
+      ],
+      "triggerNames": [
+        "audit_event_immutable"
+      ]
+    },
+    {
+      "schema": "catalog",
+      "name": "dataset",
+      "comment": "데이터셋. 데이터셋의 소유 기관·생명주기·현재 게시본 포인터와 잠금 버전을 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋의 아이디. catalog.publication 참조."
+        },
+        {
+          "oldName": "owner_organization_id",
+          "name": "psn_inst_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋의 소유기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "slug",
+          "name": "slug_nm",
+          "type": "character varying(160)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋의 슬러그명."
+        },
+        {
+          "oldName": "lifecycle_status",
+          "name": "mng_stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'ACTIVE'::character varying",
+          "comment": "데이터셋의 관리상태코드. 허용 코드: ACTIVE, RETIRED."
+        },
+        {
+          "oldName": "current_publication_id",
+          "name": "now_pstg_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋의 현재게시아이디. catalog.publication 참조."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "데이터셋의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "데이터셋의 생성일시."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "데이터셋의 수정일시."
+        }
+      ],
+      "constraintNames": [
+        "dataset_lifecycle_status_check",
+        "dataset_lock_version_check",
+        "dataset_current_publication_same_dataset",
+        "dataset_owner_organization_id_fkey",
+        "dataset_pkey",
+        "dataset_owner_identity",
+        "dataset_slug_key"
+      ],
+      "indexNames": [
+        "dataset_owner_identity",
+        "dataset_owner_idx",
+        "dataset_pkey",
+        "dataset_slug_key"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "catalog",
+      "name": "dataset_revision",
+      "comment": "데이터셋 메타데이터 개정본. 초안과 검토·승인 상태의 메타데이터 개정본을 보관한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 아이디."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 데이터셋아이디. catalog.dataset 참조."
+        },
+        {
+          "oldName": "revision_no",
+          "name": "rvsn_no",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 개정번호."
+        },
+        {
+          "oldName": "state",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'DRAFT'::character varying",
+          "comment": "데이터셋 메타데이터 개정본의 상태코드. 허용 코드: DRAFT, IN_REVIEW, APPROVED, REJECTED."
+        },
+        {
+          "oldName": "title",
+          "name": "ttl",
+          "type": "character varying(300)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 제목."
+        },
+        {
+          "oldName": "description",
+          "name": "expln",
+          "type": "text",
+          "nullable": false,
+          "default": "''::text",
+          "comment": "데이터셋 메타데이터 개정본의 설명."
+        },
+        {
+          "oldName": "provider_organization_id",
+          "name": "pvsn_inst_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 제공기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "primary_category_id",
+          "name": "main_clsf_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 주요분류아이디. classification.category 참조."
+        },
+        {
+          "oldName": "visibility",
+          "name": "rls_rng_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'PRIVATE'::character varying",
+          "comment": "데이터셋 메타데이터 개정본의 공개범위코드. 허용 코드: PUBLIC, ORGANIZATION, PRIVATE."
+        },
+        {
+          "oldName": "metadata",
+          "name": "mtdt_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'{}'::jsonb",
+          "comment": "데이터셋 메타데이터 개정본의 메타데이터내용."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "데이터셋 메타데이터 개정본의 생성일시."
+        },
+        {
+          "oldName": "content_hash",
+          "name": "cn_hash_vl",
+          "type": "character varying(64)",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 내용해시값."
+        },
+        {
+          "oldName": "created_by",
+          "name": "creatr_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 생성자ID."
+        },
+        {
+          "oldName": "updated_by",
+          "name": "mdfr_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 메타데이터 개정본의 수정자ID."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "데이터셋 메타데이터 개정본의 수정일시."
+        }
+      ],
+      "constraintNames": [
+        "dataset_revision_metadata_check",
+        "dataset_revision_revision_no_check",
+        "dataset_revision_state_check",
+        "dataset_revision_title_check",
+        "dataset_revision_visibility_check",
+        "dataset_revision_dataset_id_fkey",
+        "dataset_revision_primary_category_id_fkey",
+        "dataset_revision_provider_organization_id_fkey",
+        "dataset_revision_pkey",
+        "dataset_revision_dataset_id_id_key",
+        "dataset_revision_dataset_id_revision_no_key"
+      ],
+      "indexNames": [
+        "dataset_revision_dataset_id_id_key",
+        "dataset_revision_dataset_id_revision_no_key",
+        "dataset_revision_pkey",
+        "dataset_single_draft",
+        "revision_category_dataset_version_idx",
+        "revision_category_idx",
+        "revision_provider_idx"
+      ],
+      "triggerNames": [
+        "approved_revision_immutable",
+        "revision_active_category"
+      ]
+    },
+    {
+      "schema": "catalog",
+      "name": "discovery_lookup",
+      "comment": "공개 탐색 지역허브 분류. 공개 목록에서 사용하는 지역·허브 분류명이며 접속 설정이나 자격증명이 아니다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 탐색 지역허브 분류의 아이디."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(10)",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 탐색 지역허브 분류의 유형코드. 허용 코드: REGION, HUB."
+        },
+        {
+          "oldName": "code",
+          "name": "cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 탐색 지역허브 분류의 코드."
+        },
+        {
+          "oldName": "name",
+          "name": "nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "공개 탐색 지역허브 분류의 명."
+        },
+        {
+          "oldName": "active",
+          "name": "actvtn_yn",
+          "type": "boolean",
+          "nullable": false,
+          "default": "true",
+          "comment": "공개 탐색 지역허브 분류의 활성여부."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "공개 탐색 지역허브 분류의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "공개 탐색 지역허브 분류의 생성일시."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "공개 탐색 지역허브 분류의 수정일시."
+        }
+      ],
+      "constraintNames": [
+        "discovery_lookup_code_check",
+        "discovery_lookup_kind_check",
+        "discovery_lookup_lock_version_check",
+        "discovery_lookup_name_check",
+        "discovery_lookup_pkey",
+        "discovery_lookup_id_kind_key",
+        "discovery_lookup_kind_code_key"
+      ],
+      "indexNames": [
+        "discovery_lookup_id_kind_key",
+        "discovery_lookup_kind_code_key",
+        "discovery_lookup_pkey"
+      ],
+      "triggerNames": [
+        "discovery_lookup_protected"
+      ]
+    },
+    {
+      "schema": "catalog",
+      "name": "publication",
+      "comment": "데이터셋 게시본. 승인된 메타데이터 개정본의 게시·철회와 접근 준비 상태를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 게시본의 아이디."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 게시본의 데이터셋아이디. catalog.dataset 참조; catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "revision_id",
+          "name": "rvsn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 게시본의 개정아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "publication_no",
+          "name": "pstg_no",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 게시본의 게시번호."
+        },
+        {
+          "oldName": "state",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터셋 게시본의 상태코드. 허용 코드: PUBLISHED, WITHDRAWN."
+        },
+        {
+          "oldName": "access_state",
+          "name": "acs_stts_cd",
+          "type": "character varying(30)",
+          "nullable": false,
+          "default": "'METADATA_ONLY'::character varying",
+          "comment": "데이터셋 게시본의 접근상태코드. 허용 코드: METADATA_ONLY, LINK_READY, SERVICE_READY, UNAVAILABLE."
+        },
+        {
+          "oldName": "published_at",
+          "name": "pstg_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "데이터셋 게시본의 게시일시."
+        },
+        {
+          "oldName": "withdrawn_at",
+          "name": "rcntt_dt",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 게시본의 철회일시."
+        },
+        {
+          "oldName": "review_decision_id",
+          "name": "rvw_dcsn_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 게시본의 검토결정아이디. metadata.review_decision 참조."
+        },
+        {
+          "oldName": "published_by",
+          "name": "pstg_user_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 게시본의 게시사용자아이디."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "데이터셋 게시본의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "withdrawal_reason",
+          "name": "rcntt_rsn",
+          "type": "character varying(2000)",
+          "nullable": true,
+          "default": null,
+          "comment": "데이터셋 게시본의 철회사유."
+        }
+      ],
+      "constraintNames": [
+        "publication_access_state_check",
+        "publication_check",
+        "publication_publication_no_check",
+        "publication_state_check",
+        "publication_dataset_id_fkey",
+        "publication_dataset_id_revision_id_fkey",
+        "publication_review_decision_id_fkey",
+        "publication_pkey",
+        "publication_dataset_id_id_key",
+        "publication_dataset_id_publication_no_key",
+        "publication_revision_id_key"
+      ],
+      "indexNames": [
+        "publication_dataset_id_id_key",
+        "publication_dataset_id_publication_no_key",
+        "publication_order_idx",
+        "publication_pkey",
+        "publication_revision_id_key"
+      ],
+      "triggerNames": [
+        "publication_approved_revision",
+        "publication_matching_approval"
+      ]
+    },
+    {
+      "schema": "catalog",
+      "name": "revision_discovery",
+      "comment": "개정본 지역허브 연결. 메타데이터 개정본에 연결된 지역·허브 분류와 당시 이름을 보존한다.",
+      "columns": [
+        {
+          "oldName": "revision_id",
+          "name": "rvsn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 지역허브 연결의 개정아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "lookup_id",
+          "name": "clsf_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 지역허브 연결의 분류아이디. catalog.discovery_lookup 참조."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(10)",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 지역허브 연결의 유형코드. catalog.discovery_lookup 참조."
+        },
+        {
+          "oldName": "name_snapshot",
+          "name": "nm_snpst",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 지역허브 연결의 명스냅샷. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다."
+        }
+      ],
+      "constraintNames": [
+        "revision_discovery_lookup_id_kind_fkey",
+        "revision_discovery_revision_id_fkey",
+        "revision_discovery_pkey"
+      ],
+      "indexNames": [
+        "revision_discovery_lookup_idx",
+        "revision_discovery_pkey"
+      ],
+      "triggerNames": [
+        "discovery_reference_active",
+        "discovery_reference_draft"
+      ]
+    },
+    {
+      "schema": "catalog",
+      "name": "revision_topic",
+      "comment": "개정본 주제 연결. 메타데이터 개정본에 연결된 독립 주제와 당시 이름을 보존한다.",
+      "columns": [
+        {
+          "oldName": "revision_id",
+          "name": "rvsn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 주제 연결의 개정아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "topic_id",
+          "name": "tpc_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 주제 연결의 주제아이디. classification.category 참조."
+        },
+        {
+          "oldName": "name_snapshot",
+          "name": "nm_snpst",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "개정본 주제 연결의 명스냅샷. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다."
+        }
+      ],
+      "constraintNames": [
+        "revision_topic_revision_id_fkey",
+        "revision_topic_topic_id_fkey",
+        "revision_topic_pkey"
+      ],
+      "indexNames": [
+        "revision_topic_lookup_idx",
+        "revision_topic_pkey"
+      ],
+      "triggerNames": [
+        "topic_reference_draft",
+        "topic_reference_parent"
+      ]
+    },
+    {
+      "schema": "classification",
+      "name": "category",
+      "comment": "분야주제 분류. 계층형 분야·주제 코드와 설명·사용 상태를 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "분야주제 분류의 아이디."
+        },
+        {
+          "oldName": "parent_id",
+          "name": "up_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "분야주제 분류의 상위아이디. classification.category 참조."
+        },
+        {
+          "oldName": "code",
+          "name": "cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "분야주제 분류의 코드."
+        },
+        {
+          "oldName": "name",
+          "name": "nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "분야주제 분류의 명."
+        },
+        {
+          "oldName": "active",
+          "name": "actvtn_yn",
+          "type": "boolean",
+          "nullable": false,
+          "default": "true",
+          "comment": "분야주제 분류의 활성여부."
+        },
+        {
+          "oldName": "ordinal",
+          "name": "sort_seq",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "comment": "분야주제 분류의 정렬순서."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "분야주제 분류의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "분야주제 분류의 생성일시."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "분야주제 분류의 수정일시."
+        },
+        {
+          "oldName": "description",
+          "name": "expln",
+          "type": "character varying(4000)",
+          "nullable": false,
+          "default": "''::character varying",
+          "comment": "분야주제 분류의 설명."
+        }
+      ],
+      "constraintNames": [
+        "category_check",
+        "category_lock_version_check",
+        "category_ordinal_check",
+        "category_parent_id_fkey",
+        "category_pkey",
+        "category_code_key"
+      ],
+      "indexNames": [
+        "category_code_key",
+        "category_pkey"
+      ],
+      "triggerNames": [
+        "category_active_parent",
+        "category_use_guard",
+        "referenced_topic_protected"
+      ]
+    },
+    {
+      "schema": "delivery",
+      "name": "data_service_version",
+      "comment": "데이터 제공 계약 버전. 제공 방식·접근 정책·검증 수준·스키마와 계약의 불변 버전을 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 아이디."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 데이터셋아이디. catalog.dataset 참조."
+        },
+        {
+          "oldName": "contract_version",
+          "name": "ctrt_ver_no",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 계약버전번호."
+        },
+        {
+          "oldName": "delivery_mode",
+          "name": "pvsn_type_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 제공유형코드. 허용 코드: LINK, PROXY, MATERIALIZED."
+        },
+        {
+          "oldName": "access_policy",
+          "name": "acs_plcy_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 접근정책코드. 허용 코드: PUBLIC, UPSTREAM_AUTH, RESTRICTED."
+        },
+        {
+          "oldName": "state",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'DRAFT'::character varying",
+          "comment": "데이터 제공 계약 버전의 상태코드. 허용 코드: DRAFT, VERIFIED, REVOKED."
+        },
+        {
+          "oldName": "verification_level",
+          "name": "vrfc_lvl_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 검증수준코드. 허용 코드: FIXTURE, REAL_CONTRACT."
+        },
+        {
+          "oldName": "schema_snapshot",
+          "name": "schm_snpst_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 스키마스냅샷내용. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다."
+        },
+        {
+          "oldName": "schema_hash",
+          "name": "schm_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 스키마해시값."
+        },
+        {
+          "oldName": "contract_snapshot",
+          "name": "ctrt_snpst_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 계약스냅샷내용. 해당 버전의 보존값으로 원본 내부 키를 변경하지 않는다."
+        },
+        {
+          "oldName": "contract_hash",
+          "name": "ctrt_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "데이터 제공 계약 버전의 계약해시값."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "데이터 제공 계약 버전의 생성일시."
+        }
+      ],
+      "constraintNames": [
+        "data_service_version_access_policy_check",
+        "data_service_version_contract_hash_check",
+        "data_service_version_contract_snapshot_check",
+        "data_service_version_contract_version_check",
+        "data_service_version_delivery_mode_check",
+        "data_service_version_schema_hash_check",
+        "data_service_version_schema_snapshot_check",
+        "data_service_version_state_check",
+        "data_service_version_verification_level_check",
+        "data_service_version_dataset_id_fkey",
+        "data_service_version_pkey",
+        "data_service_version_dataset_id_contract_version_key",
+        "data_service_version_dataset_id_id_key"
+      ],
+      "indexNames": [
+        "data_service_version_dataset_id_contract_version_key",
+        "data_service_version_dataset_id_id_key",
+        "data_service_version_pkey"
+      ],
+      "triggerNames": [
+        "verified_contract_immutable"
+      ]
+    },
+    {
+      "schema": "delivery",
+      "name": "publication_service",
+      "comment": "게시본 제공 계약 연결. 게시본과 제공 서비스 계약 버전을 연결한다.",
+      "columns": [
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "게시본 제공 계약 연결의 데이터셋아이디. catalog.publication 참조; delivery.data_service_version 참조."
+        },
+        {
+          "oldName": "publication_id",
+          "name": "pstg_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "게시본 제공 계약 연결의 게시아이디. catalog.publication 참조."
+        },
+        {
+          "oldName": "service_version_id",
+          "name": "srvc_ver_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "게시본 제공 계약 연결의 서비스버전아이디. delivery.data_service_version 참조."
+        }
+      ],
+      "constraintNames": [
+        "publication_service_dataset_id_publication_id_fkey",
+        "publication_service_dataset_id_service_version_id_fkey",
+        "publication_service_pkey"
+      ],
+      "indexNames": [
+        "publication_service_pkey"
+      ],
+      "triggerNames": [
+        "real_publication_contract"
+      ]
+    },
+    {
+      "schema": "identity",
+      "name": "organization",
+      "comment": "기관. 데이터셋 소유·제공 및 기관 권한 범위의 기관을 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "기관의 아이디."
+        },
+        {
+          "oldName": "code",
+          "name": "cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "기관의 코드."
+        },
+        {
+          "oldName": "name",
+          "name": "inst_nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "기관의 기관명."
+        },
+        {
+          "oldName": "status",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'ACTIVE'::character varying",
+          "comment": "기관의 상태코드. 허용 코드: ACTIVE, INACTIVE."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "기관의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "기관의 생성일시."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "기관의 수정일시."
+        }
+      ],
+      "constraintNames": [
+        "organization_lock_version_check",
+        "organization_status_check",
+        "organization_pkey",
+        "organization_code_key"
+      ],
+      "indexNames": [
+        "organization_code_key",
+        "organization_pkey"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "integration",
+      "name": "candidate_application",
+      "comment": "수집 후보 적용 이력. 원천 메타데이터 후보를 데이터셋 초안에 적용한 버전과 멱등 결과를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 아이디."
+        },
+        {
+          "oldName": "source_metadata_id",
+          "name": "sou_mtdt_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 원천메타데이터아이디. integration.source_metadata 참조."
+        },
+        {
+          "oldName": "source_revision_no",
+          "name": "sou_rvsn_no",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 원천개정번호."
+        },
+        {
+          "oldName": "source_hash",
+          "name": "sou_hash_vl",
+          "type": "character(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 원천해시값."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 데이터셋아이디. catalog.dataset 참조."
+        },
+        {
+          "oldName": "dataset_revision_id",
+          "name": "dtset_rvsn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 데이터셋개정아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "dataset_lock_version",
+          "name": "dtset_lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 데이터셋잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "actor_id",
+          "name": "prcs_user_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 처리사용자아이디."
+        },
+        {
+          "oldName": "request_id",
+          "name": "dmnd_id",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 요청아이디."
+        },
+        {
+          "oldName": "idempotency_digest",
+          "name": "idmpt_key_hash_vl",
+          "type": "character(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 멱등키해시값."
+        },
+        {
+          "oldName": "request_hash",
+          "name": "dmnd_hash_vl",
+          "type": "character(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 후보 적용 이력의 요청해시값."
+        },
+        {
+          "oldName": "applied_at",
+          "name": "aplcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "수집 후보 적용 이력의 적용일시."
+        }
+      ],
+      "constraintNames": [
+        "candidate_application_dataset_id_fkey",
+        "candidate_application_dataset_revision_id_fkey",
+        "candidate_application_source_metadata_id_fkey",
+        "candidate_application_pkey",
+        "candidate_application_source_metadata_id_actor_id_idempoten_key"
+      ],
+      "indexNames": [
+        "candidate_application_pkey",
+        "candidate_application_source_metadata_id_actor_id_idempoten_key"
+      ],
+      "triggerNames": [
+        "candidate_application_append_only"
+      ]
+    },
+    {
+      "schema": "integration",
+      "name": "connection_event",
+      "comment": "원천 연결 변경 이력. 연결 설정 변경 주체·동작·버전을 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 변경 이력의 아이디."
+        },
+        {
+          "oldName": "connection_id",
+          "name": "lnkg_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 변경 이력의 연결아이디. integration.source_connection 참조."
+        },
+        {
+          "oldName": "actor_id",
+          "name": "prcs_user_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 변경 이력의 처리사용자아이디."
+        },
+        {
+          "oldName": "action",
+          "name": "prcs_cd",
+          "type": "character varying(40)",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 변경 이력의 처리코드."
+        },
+        {
+          "oldName": "request_id",
+          "name": "dmnd_id",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 변경 이력의 요청아이디."
+        },
+        {
+          "oldName": "configuration_version",
+          "name": "stng_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 변경 이력의 설정버전번호."
+        },
+        {
+          "oldName": "occurred_at",
+          "name": "ocrn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "원천 연결 변경 이력의 발생일시."
+        }
+      ],
+      "constraintNames": [
+        "connection_event_connection_id_fkey",
+        "connection_event_pkey"
+      ],
+      "indexNames": [
+        "connection_event_pkey"
+      ],
+      "triggerNames": [
+        "connection_event_append_only"
+      ]
+    },
+    {
+      "schema": "integration",
+      "name": "source_connection",
+      "comment": "원천 연결 설정. 기관별 adapter·주소·서버 비밀 참조와 수집 제한을 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 아이디."
+        },
+        {
+          "oldName": "organization_id",
+          "name": "inst_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "name",
+          "name": "nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 명."
+        },
+        {
+          "oldName": "adapter_code",
+          "name": "adptr_cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 어댑터코드."
+        },
+        {
+          "oldName": "endpoint",
+          "name": "lnkg_addr",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "comment": "원천 연결 설정의 연결주소."
+        },
+        {
+          "oldName": "secret_reference",
+          "name": "secrt_rfrnc_nm",
+          "type": "character varying(200)",
+          "nullable": true,
+          "default": null,
+          "comment": "원천 연결 설정의 비밀참조명. 실제 자격증명이 아닌 서버 비밀 저장소 참조."
+        },
+        {
+          "oldName": "enabled",
+          "name": "use_yn",
+          "type": "boolean",
+          "nullable": false,
+          "default": "false",
+          "comment": "원천 연결 설정의 사용여부."
+        },
+        {
+          "oldName": "timeout_seconds",
+          "name": "lmt_sec_cnt",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 제한초수. 원천 호출 제한 시간, 단위는 초."
+        },
+        {
+          "oldName": "max_attempts",
+          "name": "max_prcstry_nmtm",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 최대처리시도횟수."
+        },
+        {
+          "oldName": "max_pages",
+          "name": "max_qpage_cnt",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "원천 연결 설정의 최대조회페이지수."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "원천 연결 설정의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "원천 연결 설정의 생성일시."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "원천 연결 설정의 수정일시."
+        }
+      ],
+      "constraintNames": [
+        "source_connection_check",
+        "source_connection_max_attempts_check",
+        "source_connection_max_pages_check",
+        "source_connection_name_check",
+        "source_connection_timeout_seconds_check",
+        "source_connection_organization_id_fkey",
+        "source_connection_pkey"
+      ],
+      "indexNames": [
+        "source_connection_org",
+        "source_connection_pkey"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "integration",
+      "name": "source_metadata",
+      "comment": "수집 원천 메타데이터 후보. 원천 식별자별 최신 메타데이터 후보와 마지막 적용 기준을 보관한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 아이디."
+        },
+        {
+          "oldName": "source_connection_id",
+          "name": "sou_lnkg_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 원천연결아이디. integration.source_connection 참조."
+        },
+        {
+          "oldName": "external_id",
+          "name": "otsd_id",
+          "type": "character varying(300)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 외부아이디."
+        },
+        {
+          "oldName": "source_hash",
+          "name": "sou_hash_vl",
+          "type": "character(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 원천해시값."
+        },
+        {
+          "oldName": "source_revision",
+          "name": "sou_rvsn_nm",
+          "type": "character varying(300)",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 원천개정명."
+        },
+        {
+          "oldName": "candidate",
+          "name": "cand_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 후보내용."
+        },
+        {
+          "oldName": "mapping_version",
+          "name": "mpng_ver_nm",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 매핑버전명."
+        },
+        {
+          "oldName": "revision_no",
+          "name": "rvsn_no",
+          "type": "integer",
+          "nullable": false,
+          "default": "1",
+          "comment": "수집 원천 메타데이터 후보의 개정번호."
+        },
+        {
+          "oldName": "last_run_id",
+          "name": "last_excn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 최종실행아이디. integration.sync_run 참조."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "수집 원천 메타데이터 후보의 수정일시."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 데이터셋아이디. catalog.dataset 참조."
+        },
+        {
+          "oldName": "applied_source_hash",
+          "name": "aplcn_sou_hash_vl",
+          "type": "character(64)",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 적용원천해시값."
+        },
+        {
+          "oldName": "applied_title",
+          "name": "aplcn_ttl",
+          "type": "character varying(300)",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 적용제목."
+        },
+        {
+          "oldName": "applied_description",
+          "name": "aplcn_expln",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 적용설명."
+        },
+        {
+          "oldName": "application_version",
+          "name": "aplcn_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "수집 원천 메타데이터 후보의 적용버전번호."
+        },
+        {
+          "oldName": "applied_at",
+          "name": "aplcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 원천 메타데이터 후보의 적용일시."
+        }
+      ],
+      "constraintNames": [
+        "source_metadata_candidate_check",
+        "source_metadata_dataset_id_fkey",
+        "source_metadata_last_run_id_fkey",
+        "source_metadata_source_connection_id_fkey",
+        "source_metadata_pkey",
+        "source_metadata_source_connection_id_external_id_key"
+      ],
+      "indexNames": [
+        "source_metadata_dataset",
+        "source_metadata_pkey",
+        "source_metadata_source_connection_id_external_id_key"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "integration",
+      "name": "sync_checkpoint",
+      "comment": "수집 동기화 점검점. 연결별 증분 수집 커서와 마지막 성공 실행을 보관한다.",
+      "columns": [
+        {
+          "oldName": "source_connection_id",
+          "name": "sou_lnkg_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 동기화 점검점의 원천연결아이디. integration.source_connection 참조."
+        },
+        {
+          "oldName": "cursor",
+          "name": "cursr_vl",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 동기화 점검점의 커서값."
+        },
+        {
+          "oldName": "last_successful_run_id",
+          "name": "last_scs_excn_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 동기화 점검점의 최종성공실행아이디. integration.sync_run 참조."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "수집 동기화 점검점의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        }
+      ],
+      "constraintNames": [
+        "sync_checkpoint_last_successful_run_id_fkey",
+        "sync_checkpoint_source_connection_id_fkey",
+        "sync_checkpoint_pkey"
+      ],
+      "indexNames": [
+        "sync_checkpoint_pkey"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "integration",
+      "name": "sync_item",
+      "comment": "수집 항목 이력. 수집 실행 내 개별 원천 항목의 변경·실패·시도를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 항목 이력의 아이디."
+        },
+        {
+          "oldName": "sync_run_id",
+          "name": "sync_excn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 항목 이력의 동기화실행아이디. integration.sync_run 참조."
+        },
+        {
+          "oldName": "external_id",
+          "name": "otsd_id",
+          "type": "character varying(300)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 항목 이력의 외부아이디."
+        },
+        {
+          "oldName": "source_hash",
+          "name": "sou_hash_vl",
+          "type": "character(64)",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 항목 이력의 원천해시값."
+        },
+        {
+          "oldName": "status",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 항목 이력의 상태코드. 허용 코드: CANDIDATE, UNCHANGED, FAILED."
+        },
+        {
+          "oldName": "error_code",
+          "name": "err_cd",
+          "type": "character varying(80)",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 항목 이력의 오류코드."
+        },
+        {
+          "oldName": "attempt",
+          "name": "prcstry_nmtm",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 항목 이력의 처리시도횟수."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "수집 항목 이력의 수정일시."
+        }
+      ],
+      "constraintNames": [
+        "sync_item_status_check",
+        "sync_item_sync_run_id_fkey",
+        "sync_item_pkey",
+        "sync_item_sync_run_id_external_id_key"
+      ],
+      "indexNames": [
+        "sync_item_pkey",
+        "sync_item_status",
+        "sync_item_sync_run_id_external_id_key"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "integration",
+      "name": "sync_run",
+      "comment": "수집 실행. 연결 확인·동기화 작업의 실행 상태·재시도·점유와 점검점을 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 아이디."
+        },
+        {
+          "oldName": "source_connection_id",
+          "name": "sou_lnkg_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 원천연결아이디. integration.source_connection 참조."
+        },
+        {
+          "oldName": "requested_by",
+          "name": "rqstr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 요청자아이디."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 유형코드. 허용 코드: CHECK, SYNC."
+        },
+        {
+          "oldName": "status",
+          "name": "stts_cd",
+          "type": "character varying(30)",
+          "nullable": false,
+          "default": "'QUEUED'::character varying",
+          "comment": "수집 실행의 상태코드. 허용 코드: QUEUED, RUNNING, RETRY_WAIT, SUCCEEDED, PARTIAL_FAILED, FAILED."
+        },
+        {
+          "oldName": "idempotency_digest",
+          "name": "idmpt_key_hash_vl",
+          "type": "character(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 멱등키해시값."
+        },
+        {
+          "oldName": "request_hash",
+          "name": "dmnd_hash_vl",
+          "type": "character(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 요청해시값."
+        },
+        {
+          "oldName": "configuration_version",
+          "name": "stng_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 설정버전번호."
+        },
+        {
+          "oldName": "mapping_version",
+          "name": "mpng_ver_nm",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "수집 실행의 매핑버전명."
+        },
+        {
+          "oldName": "attempt",
+          "name": "prcstry_nmtm",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "comment": "수집 실행의 처리시도횟수."
+        },
+        {
+          "oldName": "lease_token",
+          "name": "joblse_tkn_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 작업점유토큰아이디."
+        },
+        {
+          "oldName": "lease_until",
+          "name": "joblse_expry_dt",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 작업점유만료일시."
+        },
+        {
+          "oldName": "available_at",
+          "name": "excn_psblty_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "수집 실행의 실행가능일시."
+        },
+        {
+          "oldName": "checkpoint_before",
+          "name": "bfr_chkpt_vl",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 이전점검점값."
+        },
+        {
+          "oldName": "checkpoint_after",
+          "name": "aftr_chkpt_vl",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 이후점검점값."
+        },
+        {
+          "oldName": "error_code",
+          "name": "err_cd",
+          "type": "character varying(80)",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 오류코드."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "수집 실행의 생성일시."
+        },
+        {
+          "oldName": "started_at",
+          "name": "bgng_dt",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 시작일시."
+        },
+        {
+          "oldName": "finished_at",
+          "name": "end_dt",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": null,
+          "comment": "수집 실행의 종료일시."
+        }
+      ],
+      "constraintNames": [
+        "sync_run_check",
+        "sync_run_kind_check",
+        "sync_run_status_check",
+        "sync_run_source_connection_id_fkey",
+        "sync_run_pkey",
+        "sync_run_source_connection_id_requested_by_kind_idempotency_key"
+      ],
+      "indexNames": [
+        "claim_sync_run",
+        "one_active_run_per_connection",
+        "sync_run_pkey",
+        "sync_run_source_connection_id_requested_by_kind_idempotency_key"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "metadata",
+      "name": "idempotency_record",
+      "comment": "업무 멱등 처리 기록. 사용자·작업·키 해시별 동일 요청의 처리 결과와 만료를 보관한다.",
+      "columns": [
+        {
+          "oldName": "principal_scope",
+          "name": "user_id",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 멱등 처리 기록의 사용자ID. 현재 계약에서 사용자 UUID의 문자열 표현이며 사용자별 멱등 범위에 사용한다."
+        },
+        {
+          "oldName": "operation",
+          "name": "job_nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 멱등 처리 기록의 작업명."
+        },
+        {
+          "oldName": "key_digest",
+          "name": "key_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 멱등 처리 기록의 키해시값."
+        },
+        {
+          "oldName": "request_hash",
+          "name": "dmnd_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 멱등 처리 기록의 요청해시값."
+        },
+        {
+          "oldName": "result",
+          "name": "rslt_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "업무 멱등 처리 기록의 결과내용."
+        },
+        {
+          "oldName": "expires_at",
+          "name": "expry_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "(CURRENT_TIMESTAMP + '24:00:00'::interval)",
+          "comment": "업무 멱등 처리 기록의 만료일시."
+        }
+      ],
+      "constraintNames": [
+        "idempotency_record_pkey"
+      ],
+      "indexNames": [
+        "idempotency_record_pkey"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "metadata",
+      "name": "review_decision",
+      "comment": "메타데이터 검토 결정. 검토 요청에 대한 승인·반려, 대상 해시와 결정자를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 결정의 아이디."
+        },
+        {
+          "oldName": "review_request_id",
+          "name": "rvw_dmnd_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 결정의 검토요청아이디. metadata.review_request 참조."
+        },
+        {
+          "oldName": "reviewed_content_hash",
+          "name": "rvw_cn_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 결정의 검토내용해시값. metadata.review_request 참조."
+        },
+        {
+          "oldName": "decision",
+          "name": "dcsn_cd",
+          "type": "character varying(10)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 결정의 결정코드. 허용 코드: APPROVE, REJECT."
+        },
+        {
+          "oldName": "reviewer_id",
+          "name": "rvwr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 결정의 검토자아이디."
+        },
+        {
+          "oldName": "reason",
+          "name": "rsn",
+          "type": "character varying(2000)",
+          "nullable": true,
+          "default": null,
+          "comment": "메타데이터 검토 결정의 사유."
+        },
+        {
+          "oldName": "decided_at",
+          "name": "dcsn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "메타데이터 검토 결정의 결정일시."
+        }
+      ],
+      "constraintNames": [
+        "review_decision_check",
+        "review_decision_decision_check",
+        "review_decision_review_request_id_reviewed_content_hash_fkey",
+        "review_decision_pkey",
+        "review_decision_review_request_id_key"
+      ],
+      "indexNames": [
+        "review_decision_pkey",
+        "review_decision_review_request_id_key"
+      ],
+      "triggerNames": [
+        "decision_separation",
+        "review_decision_immutable"
+      ]
+    },
+    {
+      "schema": "metadata",
+      "name": "review_request",
+      "comment": "메타데이터 검토 요청. 데이터셋 개정본과 검토할 내용 해시·제출 상태를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 요청의 아이디."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 요청의 데이터셋아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "revision_id",
+          "name": "rvsn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 요청의 개정아이디. catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "content_hash",
+          "name": "cn_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 요청의 내용해시값."
+        },
+        {
+          "oldName": "status",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 요청의 상태코드. 허용 코드: SUBMITTED, APPROVED, REJECTED, WITHDRAWN."
+        },
+        {
+          "oldName": "submitted_by",
+          "name": "sbmsn_user_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "메타데이터 검토 요청의 제출사용자아이디."
+        },
+        {
+          "oldName": "submitted_at",
+          "name": "sbmsn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "메타데이터 검토 요청의 제출일시."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "메타데이터 검토 요청의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        }
+      ],
+      "constraintNames": [
+        "review_request_lock_version_check",
+        "review_request_status_check",
+        "review_request_dataset_id_revision_id_fkey",
+        "review_request_pkey",
+        "review_request_id_content_hash_key",
+        "review_request_revision_id_key"
+      ],
+      "indexNames": [
+        "review_one_pending_per_dataset",
+        "review_request_id_content_hash_key",
+        "review_request_pkey",
+        "review_request_revision_id_key",
+        "review_status_time_idx"
+      ],
+      "triggerNames": [
+        "review_request_content_immutable"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "definition_application",
+      "comment": "정의서 선택 필드 적용 이력. 입력 정의서에서 선택한 필드를 초안에 적용한 결과와 멱등 정보를 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 아이디."
+        },
+        {
+          "oldName": "import_id",
+          "name": "dfn_inpt_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 정의입력아이디. standard.definition_import 참조."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 데이터셋아이디. catalog.dataset 참조; catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "revision_id",
+          "name": "rvsn_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 개정아이디. catalog.dataset_revision 참조; catalog.dataset_revision 참조."
+        },
+        {
+          "oldName": "requested_by",
+          "name": "rqstr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 요청자아이디."
+        },
+        {
+          "oldName": "idempotency_digest",
+          "name": "idmpt_key_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 멱등키해시값."
+        },
+        {
+          "oldName": "request_hash",
+          "name": "dmnd_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 요청해시값."
+        },
+        {
+          "oldName": "selected_field_ids",
+          "name": "chc_data_artcl_id_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 선택자료항목아이디내용."
+        },
+        {
+          "oldName": "result",
+          "name": "rslt_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 선택 필드 적용 이력의 결과내용."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "정의서 선택 필드 적용 이력의 생성일시."
+        }
+      ],
+      "constraintNames": [
+        "definition_application_result_check",
+        "definition_application_selected_field_ids_check",
+        "definition_application_dataset_id_fkey",
+        "definition_application_import_id_fkey",
+        "definition_application_revision_dataset",
+        "definition_application_revision_id_fkey",
+        "definition_application_pkey",
+        "definition_application_requested_by_idempotency_digest_key"
+      ],
+      "indexNames": [
+        "definition_application_pkey",
+        "definition_application_requested_by_idempotency_digest_key"
+      ],
+      "triggerNames": [
+        "definition_application_immutable",
+        "definition_application_source_guard"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "definition_field",
+      "comment": "정의서 추출 필드. 입력 원본에서 추출한 필드 정의·순서와 JSON Pointer 근거를 보관한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 추출 필드의 아이디."
+        },
+        {
+          "oldName": "import_id",
+          "name": "dfn_inpt_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 추출 필드의 정의입력아이디. standard.definition_import 참조."
+        },
+        {
+          "oldName": "ordinal",
+          "name": "sort_seq",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 추출 필드의 정렬순서."
+        },
+        {
+          "oldName": "field_definition",
+          "name": "data_artcl_dfn_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 추출 필드의 자료항목정의내용."
+        },
+        {
+          "oldName": "source_pointer",
+          "name": "sou_ptr_vl",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 추출 필드의 원천포인터값."
+        }
+      ],
+      "constraintNames": [
+        "definition_field_field_definition_check",
+        "definition_field_ordinal_check",
+        "definition_field_import_id_fkey",
+        "definition_field_pkey",
+        "definition_field_import_id_id_key",
+        "definition_field_import_id_ordinal_key"
+      ],
+      "indexNames": [
+        "definition_field_import_id_id_key",
+        "definition_field_import_id_ordinal_key",
+        "definition_field_pkey"
+      ],
+      "triggerNames": [
+        "definition_field_immutable"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "definition_import",
+      "comment": "정의서 입력 이력. 기관별 정의서 입력 검증 결과·원본 해시·크기·해석기 버전을 기록한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 아이디."
+        },
+        {
+          "oldName": "organization_id",
+          "name": "inst_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 기관아이디. catalog.dataset 참조; identity.organization 참조."
+        },
+        {
+          "oldName": "dataset_id",
+          "name": "dtset_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "정의서 입력 이력의 데이터셋아이디. catalog.dataset 참조; catalog.dataset 참조."
+        },
+        {
+          "oldName": "requested_by",
+          "name": "rqstr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 요청자아이디."
+        },
+        {
+          "oldName": "source_hash",
+          "name": "sou_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 원천해시값."
+        },
+        {
+          "oldName": "source_size",
+          "name": "sou_sz",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 원천크기. 입력 원본 바이트 수."
+        },
+        {
+          "oldName": "parser_version",
+          "name": "prsr_ver_nm",
+          "type": "character varying(50)",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 해석기버전명."
+        },
+        {
+          "oldName": "status",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 상태코드. 허용 코드: VALIDATED."
+        },
+        {
+          "oldName": "field_count",
+          "name": "data_artcl_cnt",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 자료항목수."
+        },
+        {
+          "oldName": "warnings",
+          "name": "wrng_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "comment": "정의서 입력 이력의 경고내용."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "정의서 입력 이력의 생성일시."
+        }
+      ],
+      "constraintNames": [
+        "definition_import_field_count_check",
+        "definition_import_source_size_check",
+        "definition_import_status_check",
+        "definition_import_warnings_check",
+        "definition_import_dataset_id_fkey",
+        "definition_import_dataset_owner",
+        "definition_import_organization_id_fkey",
+        "definition_import_pkey"
+      ],
+      "indexNames": [
+        "definition_import_org_time",
+        "definition_import_pkey"
+      ],
+      "triggerNames": [
+        "definition_import_immutable"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "dictionary",
+      "comment": "표준사전. 공공·기관 범위의 사전 원본·버전·출처를 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전의 아이디."
+        },
+        {
+          "oldName": "scope",
+          "name": "rng_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전의 범위코드. 허용 코드: PUBLIC, ORGANIZATION."
+        },
+        {
+          "oldName": "organization_id",
+          "name": "inst_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전의 기관아이디. identity.organization 참조."
+        },
+        {
+          "oldName": "code",
+          "name": "cd",
+          "type": "character varying(80)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전의 코드."
+        },
+        {
+          "oldName": "name",
+          "name": "nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전의 명."
+        },
+        {
+          "oldName": "source_uri",
+          "name": "sou_rfrnc_addr",
+          "type": "character varying(2000)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전의 원천참조주소."
+        },
+        {
+          "oldName": "version_label",
+          "name": "ver_nm",
+          "type": "character varying(100)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전의 버전명."
+        },
+        {
+          "oldName": "source_checksum",
+          "name": "sou_hash_vl",
+          "type": "character varying(64)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전의 원천해시값."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "표준사전의 생성일시."
+        }
+      ],
+      "constraintNames": [
+        "dictionary_check",
+        "dictionary_scope_check",
+        "dictionary_organization_id_fkey",
+        "dictionary_pkey",
+        "dictionary_scope_organization_id_code_version_label_key"
+      ],
+      "indexNames": [
+        "dictionary_pkey",
+        "dictionary_scope_organization_id_code_version_label_key"
+      ],
+      "triggerNames": [
+        "dictionary_source_immutable"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "dictionary_entry",
+      "comment": "표준사전 항목. 단어·용어·도메인 항목의 초안·검토·승인 상태를 관리한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 아이디."
+        },
+        {
+          "oldName": "dictionary_id",
+          "name": "stddict_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 표준사전아이디. standard.dictionary 참조."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(10)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 유형코드. 허용 코드: WORD, TERM, DOMAIN."
+        },
+        {
+          "oldName": "code",
+          "name": "cd",
+          "type": "character varying(100)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 코드."
+        },
+        {
+          "oldName": "name",
+          "name": "nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 명."
+        },
+        {
+          "oldName": "definition",
+          "name": "dfn_cn",
+          "type": "character varying(4000)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 정의내용."
+        },
+        {
+          "oldName": "data_type",
+          "name": "data_type_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 자료유형코드. 허용 코드: STRING, INTEGER, NUMBER, BOOLEAN, DATE, DATETIME, OBJECT, ARRAY."
+        },
+        {
+          "oldName": "state",
+          "name": "stts_cd",
+          "type": "character varying(20)",
+          "nullable": false,
+          "default": "'DRAFT'::character varying",
+          "comment": "표준사전 항목의 상태코드. 허용 코드: DRAFT, IN_REVIEW, APPROVED, REJECTED."
+        },
+        {
+          "oldName": "lock_version",
+          "name": "lck_ver_no",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0",
+          "comment": "표준사전 항목의 잠금버전번호. 낙관적 잠금 비교용 버전으로 값 변경 의미를 보존한다."
+        },
+        {
+          "oldName": "created_by",
+          "name": "creatr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 항목의 생성자ID."
+        },
+        {
+          "oldName": "submitted_by",
+          "name": "sbmsn_user_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전 항목의 제출사용자아이디."
+        },
+        {
+          "oldName": "decided_by",
+          "name": "dcsn_user_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전 항목의 결정사용자아이디."
+        },
+        {
+          "oldName": "decision_reason",
+          "name": "dcsn_rsn",
+          "type": "character varying(2000)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전 항목의 결정사유."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "표준사전 항목의 생성일시."
+        },
+        {
+          "oldName": "updated_at",
+          "name": "mdfcn_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "표준사전 항목의 수정일시."
+        },
+        {
+          "oldName": "updated_by",
+          "name": "mdfr_id",
+          "type": "uuid",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전 항목의 수정자ID."
+        }
+      ],
+      "constraintNames": [
+        "dictionary_entry_check",
+        "dictionary_entry_check1",
+        "dictionary_entry_check2",
+        "dictionary_entry_data_type_check",
+        "dictionary_entry_kind_check",
+        "dictionary_entry_lock_version_check",
+        "dictionary_entry_state_check",
+        "entry_last_editor_separation",
+        "dictionary_entry_dictionary_id_fkey",
+        "dictionary_entry_pkey",
+        "dictionary_entry_dictionary_id_kind_code_key"
+      ],
+      "indexNames": [
+        "dictionary_entry_dictionary_id_kind_code_key",
+        "dictionary_entry_pkey"
+      ],
+      "triggerNames": [
+        "dictionary_entry_immutable",
+        "term_review_contract"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "dictionary_export",
+      "comment": "표준사전 추출 파일. 권한과 필터를 적용해 생성한 사전 XLSX 파일과 멱등·만료 정보를 보관한다.",
+      "columns": [
+        {
+          "oldName": "id",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 아이디."
+        },
+        {
+          "oldName": "dictionary_id",
+          "name": "stddict_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 표준사전아이디. standard.dictionary 참조."
+        },
+        {
+          "oldName": "requested_by",
+          "name": "rqstr_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 요청자아이디."
+        },
+        {
+          "oldName": "kind",
+          "name": "type_cd",
+          "type": "character varying(10)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 유형코드. 허용 코드: WORD, TERM, DOMAIN."
+        },
+        {
+          "oldName": "query",
+          "name": "srch_cn",
+          "type": "character varying(200)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전 추출 파일의 검색내용."
+        },
+        {
+          "oldName": "state_filter",
+          "name": "stts_cnd_cd",
+          "type": "character varying(20)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준사전 추출 파일의 상태조건코드. 허용 코드: DRAFT, IN_REVIEW, APPROVED, REJECTED."
+        },
+        {
+          "oldName": "key_digest",
+          "name": "key_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 키해시값."
+        },
+        {
+          "oldName": "request_hash",
+          "name": "dmnd_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 요청해시값."
+        },
+        {
+          "oldName": "entry_count",
+          "name": "artcl_cnt",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 항목수."
+        },
+        {
+          "oldName": "file_content",
+          "name": "file_cn",
+          "type": "bytea",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 파일내용."
+        },
+        {
+          "oldName": "content_hash",
+          "name": "cn_hash_vl",
+          "type": "character varying(64)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준사전 추출 파일의 내용해시값."
+        },
+        {
+          "oldName": "created_at",
+          "name": "crt_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "CURRENT_TIMESTAMP",
+          "comment": "표준사전 추출 파일의 생성일시."
+        },
+        {
+          "oldName": "expires_at",
+          "name": "expry_dt",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "(CURRENT_TIMESTAMP + '24:00:00'::interval)",
+          "comment": "표준사전 추출 파일의 만료일시."
+        }
+      ],
+      "constraintNames": [
+        "dictionary_export_entry_count_check",
+        "dictionary_export_file_content_check",
+        "dictionary_export_kind_check",
+        "dictionary_export_state_filter_check",
+        "dictionary_export_dictionary_id_fkey",
+        "dictionary_export_pkey",
+        "dictionary_export_dictionary_id_requested_by_key_digest_key"
+      ],
+      "indexNames": [
+        "dictionary_export_dictionary_id_requested_by_key_digest_key",
+        "dictionary_export_expiration_idx",
+        "dictionary_export_pkey"
+      ],
+      "triggerNames": []
+    },
+    {
+      "schema": "standard",
+      "name": "domain_definition",
+      "comment": "표준도메인 정의. 표준사전 도메인 항목의 길이·정밀도·형식·단위·허용값을 정의한다.",
+      "columns": [
+        {
+          "oldName": "entry_id",
+          "name": "artcl_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준도메인 정의의 항목아이디. standard.dictionary_entry 참조."
+        },
+        {
+          "oldName": "max_length",
+          "name": "max_len",
+          "type": "integer",
+          "nullable": true,
+          "default": null,
+          "comment": "표준도메인 정의의 최대길이."
+        },
+        {
+          "oldName": "numeric_precision",
+          "name": "prcsn",
+          "type": "integer",
+          "nullable": true,
+          "default": null,
+          "comment": "표준도메인 정의의 정밀도."
+        },
+        {
+          "oldName": "numeric_scale",
+          "name": "dcpt_len",
+          "type": "integer",
+          "nullable": true,
+          "default": null,
+          "comment": "표준도메인 정의의 소수점길이."
+        },
+        {
+          "oldName": "format",
+          "name": "frm_nm",
+          "type": "character varying(200)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준도메인 정의의 형식명."
+        },
+        {
+          "oldName": "unit",
+          "name": "unit_nm",
+          "type": "character varying(100)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준도메인 정의의 단위명."
+        },
+        {
+          "oldName": "allowed_values",
+          "name": "prm_vl_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "comment": "표준도메인 정의의 허용값내용."
+        }
+      ],
+      "constraintNames": [
+        "domain_definition_allowed_values_check",
+        "domain_definition_check",
+        "domain_definition_max_length_check",
+        "domain_definition_numeric_precision_check",
+        "domain_definition_numeric_scale_check",
+        "domain_definition_entry_id_fkey",
+        "domain_definition_pkey"
+      ],
+      "indexNames": [
+        "domain_definition_pkey"
+      ],
+      "triggerNames": [
+        "domain_relationship_guard"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "term_definition",
+      "comment": "표준용어 정의. 표준용어의 물리 영문명과 승인된 도메인 관계를 정의한다.",
+      "columns": [
+        {
+          "oldName": "entry_id",
+          "name": "artcl_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준용어 정의의 항목아이디. standard.dictionary_entry 참조."
+        },
+        {
+          "oldName": "physical_name",
+          "name": "trm_eng_abbr_nm",
+          "type": "character varying(200)",
+          "nullable": false,
+          "default": null,
+          "comment": "표준용어 정의의 용어영문약어명."
+        },
+        {
+          "oldName": "domain_entry_id",
+          "name": "stddmn_artcl_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준용어 정의의 표준도메인항목아이디. standard.dictionary_entry 참조."
+        }
+      ],
+      "constraintNames": [
+        "term_definition_check",
+        "term_definition_physical_name_check",
+        "term_definition_domain_entry_id_fkey",
+        "term_definition_entry_id_fkey",
+        "term_definition_pkey"
+      ],
+      "indexNames": [
+        "term_definition_pkey",
+        "term_domain_idx"
+      ],
+      "triggerNames": [
+        "term_relationship_guard"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "term_word",
+      "comment": "표준용어 구성 단어. 용어를 구성하는 승인 단어와 결합 순서를 기록한다.",
+      "columns": [
+        {
+          "oldName": "term_entry_id",
+          "name": "trm_artcl_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준용어 구성 단어의 용어항목아이디. standard.term_definition 참조."
+        },
+        {
+          "oldName": "word_entry_id",
+          "name": "word_artcl_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준용어 구성 단어의 단어항목아이디. standard.dictionary_entry 참조."
+        },
+        {
+          "oldName": "ordinal",
+          "name": "sort_seq",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "comment": "표준용어 구성 단어의 정렬순서."
+        }
+      ],
+      "constraintNames": [
+        "term_word_check",
+        "term_word_ordinal_check",
+        "term_word_term_entry_id_fkey",
+        "term_word_word_entry_id_fkey",
+        "term_word_pkey"
+      ],
+      "indexNames": [
+        "term_word_pkey",
+        "term_word_reference_idx"
+      ],
+      "triggerNames": [
+        "term_word_relationship_guard"
+      ]
+    },
+    {
+      "schema": "standard",
+      "name": "word_definition",
+      "comment": "표준단어 정의. 표준단어의 영문 전체명·약어와 동의어를 정의한다.",
+      "columns": [
+        {
+          "oldName": "entry_id",
+          "name": "artcl_id",
+          "type": "uuid",
+          "nullable": false,
+          "default": null,
+          "comment": "표준단어 정의의 항목아이디. standard.dictionary_entry 참조."
+        },
+        {
+          "oldName": "english_name",
+          "name": "eng_nm",
+          "type": "character varying(200)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준단어 정의의 영문명."
+        },
+        {
+          "oldName": "abbreviation",
+          "name": "abbr_nm",
+          "type": "character varying(100)",
+          "nullable": true,
+          "default": null,
+          "comment": "표준단어 정의의 약어명."
+        },
+        {
+          "oldName": "synonyms",
+          "name": "synm_cn",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "comment": "표준단어 정의의 동의어내용."
+        }
+      ],
+      "constraintNames": [
+        "word_definition_synonyms_check",
+        "word_definition_entry_id_fkey",
+        "word_definition_pkey"
+      ],
+      "indexNames": [
+        "word_definition_pkey"
+      ],
+      "triggerNames": [
+        "word_relationship_guard"
+      ]
+    }
+  ]
+}

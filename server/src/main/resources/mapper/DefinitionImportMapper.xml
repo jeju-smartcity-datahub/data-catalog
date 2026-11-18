@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DefinitionImport">
+  <insert id="insertImport">INSERT INTO standard.definition_import(id,inst_id,dtset_id,rqstr_id,sou_hash_vl,sou_sz,prsr_ver_nm,stts_cd,data_artcl_cnt,wrng_cn)
+    VALUES(CAST(#{id} AS uuid),CAST(#{organization} AS uuid),CAST(#{dataset} AS uuid),CAST(#{actor} AS uuid),#{hash},#{size},#{parser},'VALIDATED',#{count},CAST(#{warnings} AS jsonb))</insert>
+  <insert id="insertField">INSERT INTO standard.definition_field(id,dfn_inpt_id,sort_seq,data_artcl_dfn_cn,sou_ptr_vl)
+    VALUES(CAST(#{id} AS uuid),CAST(#{importId} AS uuid),#{ordinal},CAST(#{field} AS jsonb),#{pointer})</insert>
+  <insert id="insertAnalysis">INSERT INTO analytics.analysis_run(id,inst_id,dtset_rvsn_id,dfn_inpt_id,type_cd,engn_ver_nm,rqstr_id,stts_cd,data_artcl_cnt,sou_hash_vl,bss_cn,dfn_dgns_cn)
+    VALUES(CAST(#{id} AS uuid),CAST(#{organization} AS uuid),CAST(#{revision} AS uuid),CAST(#{importId} AS uuid),'DEFINITION_IMPORT',#{parser},CAST(#{actor} AS uuid),'SUCCEEDED',#{count},#{hash},CAST(#{evidence} AS jsonb),CAST(#{diagnostics} AS jsonb))</insert>
+  <select id="find" resultType="kr.co.dtonic.datacatalog.standard.definition.DefinitionImportMapper$ImportRow">
+    SELECT i.id::text,i.inst_id::text AS organization_id,i.dtset_id::text AS dataset_id,i.sou_hash_vl AS source_hash,i.sou_sz AS source_size,i.prsr_ver_nm AS parser_version,i.stts_cd AS status,i.data_artcl_cnt AS field_count,i.wrng_cn::text AS warnings,i.crt_dt AS created_at,a.id::text AS analysis_run_id,a.dfn_dgns_cn::text AS diagnostics
+    FROM standard.definition_import i JOIN analytics.analysis_run a ON a.dfn_inpt_id=i.id WHERE i.id=CAST(#{value} AS uuid)
+  </select>
+  <select id="analysisDiagnostics" resultType="kr.co.dtonic.datacatalog.standard.definition.DefinitionImportMapper$AnalysisDiagnosticsRow">
+    SELECT inst_id::text AS organization_id,dfn_dgns_cn::text AS diagnostics FROM analytics.analysis_run WHERE id=CAST(#{value} AS uuid)
+  </select>
+  <select id="fields" resultType="kr.co.dtonic.datacatalog.standard.definition.DefinitionImportMapper$FieldRow">
+    SELECT id::text,sou_ptr_vl AS source_pointer,data_artcl_dfn_cn::text AS field_definition FROM standard.definition_field WHERE dfn_inpt_id=CAST(#{value} AS uuid) ORDER BY sort_seq,id
+  </select>
+  <select id="lockApplication" resultType="string">SELECT pg_advisory_xact_lock(hashtextextended(#{value},0))::text</select>
+  <select id="application" resultType="kr.co.dtonic.datacatalog.standard.definition.DefinitionImportMapper$ApplicationRow">
+    SELECT dmnd_hash_vl AS request_hash,rslt_cn::text AS result FROM standard.definition_application WHERE rqstr_id=CAST(#{actor} AS uuid) AND idmpt_key_hash_vl=#{key}
+  </select>
+  <insert id="insertApplication">INSERT INTO standard.definition_application(id,dfn_inpt_id,dtset_id,rvsn_id,rqstr_id,idmpt_key_hash_vl,dmnd_hash_vl,chc_data_artcl_id_cn,rslt_cn)
+    VALUES(CAST(#{id} AS uuid),CAST(#{importId} AS uuid),CAST(#{dataset} AS uuid),CAST(#{revision} AS uuid),CAST(#{actor} AS uuid),#{key},#{hash},CAST(#{selected} AS jsonb),CAST(#{result} AS jsonb))</insert>
+</mapper>

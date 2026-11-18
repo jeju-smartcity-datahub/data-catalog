@@ -1,0 +1,51 @@
+{
+  "name": "dtonic-datacatalog-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "env:init": "node scripts/init-dev-env.mjs",
+    "setup:java": "pwsh -NoProfile -File scripts/setup-java.ps1",
+    "setup:postgres": "pwsh -NoProfile -File scripts/setup-postgres.ps1",
+    "install:apps": "npm --prefix web ci --ignore-scripts && npm --prefix admin ci --ignore-scripts",
+    "db:up": "docker compose --env-file .env.dev -f infra/compose.yaml up -d --wait db",
+    "db:test:up": "docker compose --env-file .env.dev -f infra/compose.yaml --profile test up -d --wait db-test",
+    "db:down": "docker compose --env-file .env.dev -f infra/compose.yaml --profile test down",
+    "db:local:up": "pwsh -NoProfile -File scripts/postgres-local.ps1 -Action start",
+    "db:local:down": "pwsh -NoProfile -File scripts/postgres-local.ps1 -Action stop",
+    "db:local:test:up": "pwsh -NoProfile -File scripts/postgres-local.ps1 -Action start -Test",
+    "db:local:test:down": "pwsh -NoProfile -File scripts/postgres-local.ps1 -Action stop -Test",
+    "dev:server": "node scripts/server.mjs dev",
+    "dev:server:local-auth": "node scripts/server.mjs dev-local-auth",
+    "account:local:create": "node scripts/provision-local-account.mjs",
+    "test:local-auth:e2e": "npm --prefix web run test:local-auth:e2e",
+    "start:server": "node scripts/server.mjs start",
+    "dev:web": "node scripts/app.mjs web dev",
+    "dev:admin": "node scripts/app.mjs admin dev",
+    "start:web": "node scripts/app.mjs web start",
+    "preview:admin": "node scripts/app.mjs admin preview",
+    "build:server": "node scripts/server.mjs build",
+    "build:web": "npm --prefix web run build",
+    "build:admin": "npm --prefix admin run build",
+    "build": "npm run build:server && npm run build:web && npm run build:admin",
+    "test:server": "node scripts/server.mjs test",
+    "test:server:local": "node scripts/test-server-local.mjs",
+    "api:generate": "npm --prefix web run api:generate && npm --prefix admin run api:generate",
+    "lint": "npm --prefix web run lint && npm --prefix admin run lint",
+    "typecheck": "npm --prefix web run typecheck && npm --prefix admin run typecheck",
+    "test:e2e": "npm --prefix web run test:e2e",
+    "test:ui:unit": "node --test admin/tests/hub-usability-unit.mjs web/tests/presentation-unit.mjs web/tests/public-dcat-unit.mjs",
+    "test:public:records": "node web/tests/records-and-access-fixture.mjs",
+    "test:admin:contracts": "node scripts/test-admin-contracts.mjs",
+    "test:public:contracts": "node web/tests/catalog-ui-states.mjs",
+    "db:backup": "node scripts/database-recovery.mjs backup",
+    "db:restore:verify": "node scripts/database-recovery.mjs verify",
+    "test:load:local": "node scripts/smoke-load.mjs"
+  },
+  "devDependencies": {
+    "c8": "12.0.0"
+  }
+}

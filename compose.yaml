@@ -1,0 +1,89 @@
+name: ${COMPOSE_PROJECT_NAME:-datacatalog}
+services:
+  db:
+    image: postgres@sha256:839fbb5a4942a7758dd93e18b42ea5649807491a0545b5eeeb8f0b8bb11857a5
+    environment:
+      POSTGRES_DB: datacatalog
+      POSTGRES_USER: datacatalog
+      POSTGRES_PASSWORD: ${CATALOG_DB_PASSWORD:?Set CATALOG_DB_PASSWORD in .env}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    volumes: [catalog-data:/var/lib/postgresql/data]
+    networks: [backend]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U datacatalog -d datacatalog]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+    logging: &logging
+      driver: json-file
+      options: {max-size: 10m, max-file: '3'}
+  api:
+    image: datacatalog-api:${CATALOG_RELEASE:-oss-20261118}
+    build: {context: ., dockerfile: docker/Api.Dockerfile}
+    environment:
+      SPRING_PROFILES_ACTIVE: prod,local-auth
+      CATALOG_LOCAL_AUTH_ENABLED: 'true'
+      CATALOG_LOCAL_AUTH_ALLOW_INSECURE_HTTP: 'true'
+      SESSION_COOKIE_SECURE: 'false'
+      DB_URL: jdbc:postgresql://db:5432/datacatalog
+      DB_USERNAME: datacatalog
+      DB_PASSWORD: ${CATALOG_DB_PASSWORD:?Set CATALOG_DB_PASSWORD in .env}
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: '8080'
+      SERVER_FORWARD_HEADERS_STRATEGY: framework
+      CATALOG_INTEGRATION_WORKER_ENABLED: 'true'
+      SPRING_CONFIG_ADDITIONAL_LOCATION: file:/etc/catalog/integration.properties
+      JAVA_TOOL_OPTIONS: -Xms128m -Xmx512m -XX:MaxMetaspaceSize=256m
+    volumes:
+      - ./config/integration.properties:/etc/catalog/integration.properties:ro,Z
+    networks: [backend, egress]
+    depends_on:
+      db: {condition: service_healthy}
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+    logging: *logging
+  web:
+    image: datacatalog-web:${CATALOG_RELEASE:-oss-20261118}
+    build: {context: ., dockerfile: docker/Web.Dockerfile}
+    environment:
+      SERVER_API_URL: http://api:8080
+      HOSTNAME: 0.0.0.0
+      PORT: '3000'
+    networks: [backend]
+    depends_on: [api]
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:3000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+    logging: *logging
+  edge:
+    image: datacatalog-edge:${CATALOG_RELEASE:-oss-20261118}
+    build: {context: ., dockerfile: docker/Edge.Dockerfile}
+    environment:
+      CATALOG_HTTP_PORT: ${CATALOG_HTTP_PORT:-18184}
+    volumes:
+      - ./config/nginx.conf.template:/etc/nginx/templates/default.conf.template:ro,Z
+    ports:
+      - '${CATALOG_BIND_ADDRESS:-127.0.0.1}:${CATALOG_HTTP_PORT:-18184}:8080'
+    networks: [backend, ingress]
+    depends_on:
+      web: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, http://127.0.0.1:8080/actuator/health]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
+    logging: *logging
+networks:
+  backend: {internal: true}
+  egress: {}
+  ingress: {}
+volumes:
+  catalog-data: {}

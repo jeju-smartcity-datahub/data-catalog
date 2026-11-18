@@ -1,0 +1,10 @@
+.confidence { display: grid; gap: 6px; min-width: 180px; font-size: 13px; line-height: 1.6; }
+.confidence strong { color: var(--color-primary); font-size: 15px; }
+.confidence > span, .note { color: var(--color-muted); }
+.confidence details { max-width: 440px; overflow-wrap: anywhere; }
+.confidence summary { cursor: pointer; color: var(--color-primary); min-height: 28px; }
+.confidence p { margin: 8px 0; }.confidence ul { margin: 8px 0; padding-left: 20px; }
+.diagnostics { margin: 20px 0; padding: 18px; border: 1px solid var(--color-line); border-radius: 8px; background: #f6f8fb; font-size: 14px; line-height: 1.7; }
+.diagnostics h3 { margin: 0 0 8px; font-size: 16px; }.diagnostics p { margin: 8px 0; }
+.diagnostics td { white-space: normal; overflow-wrap: anywhere; max-width: 480px; }
+.note { font-size: 13px; line-height: 1.6; }
